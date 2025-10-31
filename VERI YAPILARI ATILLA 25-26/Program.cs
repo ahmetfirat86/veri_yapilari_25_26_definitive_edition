@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Threading.Channels;
 
-namespace VERİ_YAPILARI
+namespace VERİ_YAPILARI//sa
 {
     #region DERSE DAIR NOTLAR
     /*
@@ -29,7 +29,6 @@ namespace VERİ_YAPILARI
             public int data;
             public Block next;
         }
-        
         #region HAFTA 3 - MEMORY LAYOUT - ARRAYS
         static void ders3()
         {
@@ -762,7 +761,7 @@ namespace VERİ_YAPILARI
             }
             static void soru4()//Listeyi tersine çeviren algoritmayı elle yaz (reverse linked list).”
             {
-                
+                Console.WriteLine("tamam");
             }
         }
         #endregion
