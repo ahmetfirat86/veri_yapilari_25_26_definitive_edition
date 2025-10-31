@@ -427,26 +427,34 @@ namespace VERİ_YAPILARI//saaaa
             Block head2 = LinkedListOlusturRecursive(25);
             Block linkedListHead = SLLolustur();
             Block newLinkedListHead = LinkedListOlusturRecursive(25);
-            ValuedenSonraArayaNodeEkle(head,2);
+            ValuedenSonraArayaNodeEkle(head, 2);
             LinkedListOku(head);
             LinkedListOkuRecursive(head);
             LinkedListOkuRecursiveTersten(head);
             CiftElemanlarıYazdır(head);
             LinkedListOkuRecursive(linkedListHead);
             LinkedListOkuRecursive(newLinkedListHead);
-            linkedListHead = BaşaEkle(linkedListHead,-1);
+            linkedListHead = BaşaEkle(linkedListHead, -1);
             LinkedListOkuRecursive(linkedListHead);
-            linkedListHead = SonaEkle(linkedListHead,-1);
+            linkedListHead = SonaEkle(linkedListHead, -1);
             LinkedListOkuRecursive(linkedListHead);
-            linkedListHead = ValueElemanıSil(linkedListHead,-1);
+            linkedListHead = ValueElemanıSil(linkedListHead, -1);
             LinkedListOkuRecursive(linkedListHead);
-            ValueInciElemanıBul(linkedListHead,4);
+            ValueInciElemanıBul(linkedListHead, 4);
             LinkedListeyiTerstenOkuStackIle(head);
             LinkedListtekiEnBuyukElemanBul(head);
             CiftElemanlarıYazdırRecursive(linkedListHead);
+            LinkedListOkuRecursive(linkedListHead);
             soru1();
             soru2();
             soru3();
+            soru4(linkedListHead);
+            hocadanDerste();
+            Block headx = null;
+            linkAl(ref headx,1);
+            linkYazRec(headx);
+
+        
             // SLL ÖRNEKLERİ METHOD OLARAK
             static Block LinkedListOlustur()
             {
@@ -759,9 +767,100 @@ namespace VERİ_YAPILARI//saaaa
                 }
                 Console.WriteLine();
             }
-            static void soru4()//Listeyi tersine çeviren algoritmayı elle yaz (reverse linked list).”
+            static void soru4(Block head)//Listeyi tersine çeviren algoritmayı elle yaz (reverse linked list).”
             {
-                Console.WriteLine("tamam");
+                Block prev = null;     // gerideki blok
+                Block current = head;  // o anki blok
+                Block next = null;     // sonraki blok
+
+                while (current != null)
+                {
+                    next = current.next;   // 1️⃣ sıradakini kaydet
+                    current.next = prev;   // 2️⃣ bağlantıyı ters çevir
+                    prev = current;        // 3️⃣ bir adım ilerle
+                    current = next;        // 4️⃣ sıradakine geç
+                }
+
+                head = prev;  // 5️⃣ yeni head artık son elemandır
+
+                // listeyi yazdır
+                Block temp = head;
+                while (temp != null)
+                {
+                    Console.Write(temp.data + " ");
+                    temp = temp.next;
+                }
+            }
+            static void hocadanDerste()
+            {
+                Block head = null;
+                Block temp = null;
+                Block last = null;
+
+                // bağlı liste oluşturma ilk gösterdiği yöntem
+                for (int i = 0; i < 10; i++)
+                {
+                    Block newNode = new Block();
+                    newNode.data = i;
+
+                    if (head == null)
+                    {
+                        head = newNode;
+
+                    }
+                    else
+                    {
+                        last.next = newNode;
+
+                    }
+                    last = newNode;
+                }
+                temp = head;
+                //yazdır
+                while (temp != null)
+                {
+                    Console.Write(temp.data + " ");
+                    temp = temp.next;
+                }
+                Console.WriteLine();
+
+                // bağlı liste oluşturma ikinci gösterdiği yöntem bu yöntemi daha cok seviyormuş beyfendi
+                for (int i = 10; i < 10; i++)
+                {
+                    Block newNode = new Block();
+                    newNode.data = i;
+                    newNode.next = last;
+                    last = newNode;
+                }
+                temp = head;
+                //yazdır
+                while (temp != null)
+                {
+                    Console.Write(temp.data + " ");
+                    temp = temp.next;
+                }
+                Console.WriteLine();
+            }
+            static void linkAl(ref Block bl,int data)
+            {
+                if (data == 20) return;
+                if (bl == null)
+                {
+                    bl = new Block();
+                    bl.data = data;
+                }
+                else
+                {
+                    bl.next = new Block();
+                    bl.next.data = data;
+                }
+                linkAl(ref bl.next, data+1);
+            }
+            static void linkYazRec(Block temp)
+            {
+                if(temp == null) return;
+                Console.WriteLine(temp.data + " ");
+                linkYazRec(temp.next);
             }
         }
         #endregion
@@ -818,10 +917,6 @@ namespace VERİ_YAPILARI//saaaa
             }
 
             #endregion
-
-
-
-
         }
  
         class MyStack// OOP ARRAY STACK YAPISI
