@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Threading.Channels;
 
-namespace VERİ_YAPILARI//sa
+namespace VERİ_YAPILARI//saaaa
 {
     #region DERSE DAIR NOTLAR
     /*
