@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Threading.Channels;
 
-namespace VERİ_YAPILARI//saaaa
+namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 {
     #region DERSE DAIR NOTLAR
     /*
@@ -15,19 +15,13 @@ namespace VERİ_YAPILARI//saaaa
     {
         static int[] mainArr = new int[10];
         static int[] mainStack = new int[10];
-        static int top;
-        static int memX;
-        static int memY;
-        static int memZ;
-        static int memW;
-        static int memV;
-        static int memU;
-        static int memT;
+        static int top, memX,memY,memZ,memW,memV,memU,memT;
         static Random rnd = new Random(100);
-        class Block
+        class Block //blok yapısı
         {
             public int data;
             public Block next;
+            public Block prev;
         }
         #region HAFTA 3 - MEMORY LAYOUT - ARRAYS
         static void ders3()
@@ -864,32 +858,37 @@ namespace VERİ_YAPILARI//saaaa
             }
         }
         #endregion
-        #region HAFTA 6 - CIRCULAR LINKED LISTS
-        static void hafta6()
+        #region HAFTA 6 - SINGLY LINKED LISTS and DOUBLE LINKED LISTS
+        static void hafta6_1() //SLL
         {
-            Console.WriteLine();
-            READ_LIST(CREATE_LIST());
-            Console.WriteLine();
-            READ_LIST_RECURSIVE(CREATE_LIST());
-            Console.WriteLine();
-            READ_LIST_RECURSIVE(ADD_RECORD_BEFORE_HEAD(CREATE_LIST(), 31));
-            Console.WriteLine();
-            READ_LIST_RECURSIVE(DELETE_HEAD(CREATE_LIST()));
-            Console.WriteLine();
-            READ_LIST_RECURSIVE(ADD_TO_LIST_1(CREATE_LIST(), 99));
-            Console.WriteLine();
-            READ_LIST_RECURSIVE(DELETE_LAST_ITEM_1(CREATE_LIST()));
-            Console.WriteLine();
-            READ_LIST_RECURSIVE(ODEV_1(CREATE_LIST()));
-            Console.WriteLine();
-            READ_LIST_RECURSIVE(ODEV_1_HOCANIN_COZUMU(CREATE_LIST()));
-            Console.WriteLine();
-            READ_LIST_RECURSIVE(ODEV_1_RECURSIVE(CREATE_LIST(),1));
-            Console.WriteLine();
-            READ_LIST_RECURSIVE(ODEV_3(CREATE_LIST()));
-
-
-
+            static void calıstırH6_1()
+            {
+                Console.WriteLine();
+                READ_LIST(CREATE_LIST());
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(CREATE_LIST());
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(ADD_RECORD_BEFORE_HEAD(CREATE_LIST(), 31));
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(DELETE_HEAD(CREATE_LIST()));
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(ADD_TO_LIST_1(CREATE_LIST(), 99));
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(DELETE_LAST_ITEM_1(CREATE_LIST()));
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(ODEV_1(CREATE_LIST()));
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(ODEV_1_HOCANIN_COZUMU(CREATE_LIST()));
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(ODEV_1_RECURSIVE(CREATE_LIST(), 1));
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(ODEV_3(CREATE_LIST()));
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(ODEV_4(CREATE_LIST()));
+                Console.WriteLine();
+                READ_LIST_RECURSIVE(ODEV_4_RECURSIVE(CREATE_LIST()));
+            } //AŞAĞIDA YAZILAN METHODLARI ÇAĞIRAN ANA METHOD
+            
             static Block CREATE_LIST()
             {
                 Block head = new Block();
@@ -905,6 +904,9 @@ namespace VERİ_YAPILARI//saaaa
                 }
                 return head;
             }
+            //listenin eleman sayısını bul + recursive
+            //bu listenin içerisindeki 7 olanları delete ediniz
+
             static void READ_LIST(Block head)
             {
                 Block temp = head;
@@ -1013,8 +1015,24 @@ namespace VERİ_YAPILARI//saaaa
             }
             static Block ODEV_2(Block head)// sondan 4.bloğu sil
             {
-                if(head==null)return null;//   [5]->[6]->[7]->[8]->[9]->[10]->[null]
-
+                //sondan 4 demek aslında baştan n-4+1 demektir
+                //list uzunlugu n ise baştan n-3.düğüm silinir
+                if(head==null)return null;  //   [5]->[6]->[7]->[8]->[9]->[10]->[null]
+                int length = 0;
+                Block temp = head;
+                while (temp != null)
+                {
+                    length++;
+                    temp = temp.next;
+                }
+                if (length < 4) return head; //length 4ten küçükse silinecek birşey yok
+                int targetIndex = length - 4;
+                temp = head;
+                for (int i = 0; i < targetIndex - 1; i++)
+                {
+                    temp = temp.next;
+                }
+                temp.next = temp.next.next;
                 return head;
             }
             static Block ODEV_3(Block head)//data değeri 7 olan bloktan sonra data değeri -1 olan blok ekle
@@ -1029,10 +1047,67 @@ namespace VERİ_YAPILARI//saaaa
                         newNode.data = -1;
                         newNode.next = temp.next;
                         temp.next = newNode;
-
+                        //break; -> denirse ilk 7de bu işi yapar diğer data değeri 7 olanlarda yapmaz direk döngüdençıkar
                     }
                     temp = temp.next;
                 }
+                return head;
+            }
+            static Block ODEV_4(Block head)//data değeri 7 olan bloktan önce data değeri 99 olan blok ekle
+            {
+                if (head == null) return null;
+                if(head.data== 7)
+                {
+                    Block newNode = new Block();
+                    newNode.data = 99;
+                    newNode.next = head;
+                    head = newNode;
+                    return head;
+                }//                                          temp
+                Block temp = head;//                     [5]->[6]->[7]->[8]->[9]->[10]->[null]
+            
+                while(temp != null && temp.next !=null) //dikkat önemli ikinci şart olmazsa NullReferenceException veriyor
+                {
+                    if (temp.next.data == 7)
+                    {
+                        Block newNode = new Block();
+                        newNode.data = 99;
+                        newNode.next = temp.next;
+                        temp.next = newNode;
+                        break; // !sadece ilk 7den önce ekler! diğer datası 7 olan bloklara bakmaz
+                    }
+                    temp = temp.next;
+                }
+                return head;
+            }
+            static Block ODEV_4_RECURSIVE(Block head)
+            {
+                if (head == null) return null;
+                if(head.data== 7)
+                {
+                    Block newNode = new Block();
+                    newNode.data = 99;
+                    newNode.next = head;
+                    head = newNode;
+                }
+                if (head.next.data == 7 && head.next != null)
+                {
+                    Block newNode = new Block();
+                    newNode.data = 99;
+                    newNode.next = head.next;
+                    head.next = newNode;
+                    return head;
+                }
+                head.next = ODEV_4_RECURSIVE(head.next);
+                return head;
+            }
+            calıstırH6_1();
+        }
+        static void hafta6_2() //DLL circular
+        {
+            static Block CREATE_LIST()
+            {
+                Block head = new Block();
                 return head;
             }
         }
@@ -1187,7 +1262,7 @@ namespace VERİ_YAPILARI//saaaa
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
-            hafta6();
+            hafta6_1();
 
         }
     }
