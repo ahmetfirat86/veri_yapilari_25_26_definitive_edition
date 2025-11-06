@@ -878,8 +878,15 @@ namespace VERİ_YAPILARI//saaaa
             Console.WriteLine();
             READ_LIST_RECURSIVE(ADD_TO_LIST_1(CREATE_LIST(), 99));
             Console.WriteLine();
-            READ_LIST_RECURSIVE(ADD_TO_LIST_2(CREATE_LIST(), 99));
+            READ_LIST_RECURSIVE(DELETE_LAST_ITEM_1(CREATE_LIST()));
             Console.WriteLine();
+            READ_LIST_RECURSIVE(ODEV_1(CREATE_LIST()));
+            Console.WriteLine();
+            READ_LIST_RECURSIVE(ODEV_1_HOCANIN_COZUMU(CREATE_LIST()));
+            Console.WriteLine();
+            READ_LIST_RECURSIVE(ODEV_1_RECURSIVE(CREATE_LIST(),1));
+            Console.WriteLine();
+            READ_LIST_RECURSIVE(ODEV_3(CREATE_LIST()));
 
 
 
@@ -924,43 +931,110 @@ namespace VERİ_YAPILARI//saaaa
                 head = newNode; // yeni head newNode olur
                 return head;
             }
+            static Block ADD_TO_LIST_1(Block head, int data)
+            {
+                Block newNode = new Block();
+                newNode.data = data;//                  [ 7 ]->[ 8 ]->[ 9 ]->[ 10 ]->[null]
+                if (head == null) return newNode;//                           temp
+                Block temp = head;
+                while (temp.next != null)//temp.next kontrol edilir
+                {
+                    temp = temp.next;
+                }
+                temp.next = newNode;
+                return head;
+            }
             static Block DELETE_HEAD(Block head)
             {
                 if(head == null) return null;
                 head= head.next; // head bir sonraki elemana kayar
                 return head;
             }
-            static Block ADD_TO_LIST_1(Block head,int data)
-            {
-                Block newNode = new Block();
-                newNode.data = data;//                  [ 7 ]->[ 8 ]->[ 9 ]->[ 10 ]->[null]
-                if (head == null) return newNode;//                           temp
-                Block temp = head;  
-                while (temp.next != null)//temp.next kontrol edilir
+            static Block DELETE_LAST_ITEM_1(Block head)
+            {   //eğer liste boşsa veya tek elemanlıysa çalışır ama sıkıntı
+                if (head == null) return null;//   [7]->[8]->[9]->[10]->[null]
+                if (head.next == null) return null ;//       temp 
+                Block temp = head;//                  
+                while(temp.next.next!= null)
                 {
-                    temp= temp.next;
+                    temp = temp.next;
                 }
+                temp.next = null;
+                return head;
+            }
+            static Block ODEV_1(Block head)//baştan itibaren 4.bloktan sonra değeri 999 olan block ekle
+            {
+                if (head == null) return null;//      [newNode]  
+                Block newNode = new Block();//      [7]->[8]->[9]->[10]->[null]
+                newNode.data = 999;//              temp
+                Block temp = head;
+                int sayac = 1;
+                while (temp != null)
+                {
+                    if (sayac == 4)
+                    {
+                        newNode.next = temp.next;
+                        temp.next = newNode;
+                        break;
+                    }
+                    temp = temp.next;
+                    sayac++;
+                }
+                return head;
+            }
+            static Block ODEV_1_HOCANIN_COZUMU(Block head)//baştan itibaren 4.bloktan sonra değeri 999 olan block ekle
+            {
+                Block temp = head;
+                int sayac = 0;
+                while (sayac < 4)
+                {
+                    temp = temp.next;
+                    sayac++;
+                }
+                Block newNode = new Block();
+                newNode.data = 999;
+                newNode.next = temp.next;
                 temp.next = newNode;
                 return head;
             }
-            static Block ADD_TO_LIST_2(Block head, int data)
+            static Block ODEV_1_RECURSIVE(Block head,int sayac)
             {
-                Block newNode = new Block();
-                newNode.data = data;//                  [ 7 ]->[ 8 ]->[ 9 ]->[ 10 ]->[null]
-                Block temp = head;//                                          temp 
-                while (temp != null)//temp kontrol edilir
+                if(head== null) return null;
+                if (sayac == 4)
                 {
-                    if(temp.next == null)
+                    Block newNode =new Block();
+                    newNode.data = 999;
+                    newNode.next = head.next;
+                    head.next = newNode;
+                    return head;//bu olmasa da çalışır ama işlev yerine getirilince erkenden cıkmak için lazım
+                }
+                ODEV_1_RECURSIVE(head.next, sayac + 1);
+                return head;
+            }
+            static Block ODEV_2(Block head)// sondan 4.bloğu sil
+            {
+                if(head==null)return null;//   [5]->[6]->[7]->[8]->[9]->[10]->[null]
+
+                return head;
+            }
+            static Block ODEV_3(Block head)//data değeri 7 olan bloktan sonra data değeri -1 olan blok ekle
+            {
+                if (head == null) return null;//   [5]->[6]->[7]->[8]->[9]->[10]->[null]
+                Block temp = head;
+                while (temp != null)
+                {
+                    if (temp.data == 7)
                     {
+                        Block newNode = new Block();
+                        newNode.data = -1;
+                        newNode.next = temp.next;
                         temp.next = newNode;
-                        break;
+
                     }
                     temp = temp.next;
                 }
                 return head;
             }
-            
-
         }
         #endregion
         #region HAFTA 7 - DOUBLE LINKED LIST - STACKS
