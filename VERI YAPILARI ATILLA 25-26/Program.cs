@@ -865,6 +865,103 @@ namespace VERİ_YAPILARI//saaaa
         }
         #endregion
         #region HAFTA 6 - CIRCULAR LINKED LISTS
+        static void hafta6()
+        {
+            Console.WriteLine();
+            READ_LIST(CREATE_LIST());
+            Console.WriteLine();
+            READ_LIST_RECURSIVE(CREATE_LIST());
+            Console.WriteLine();
+            READ_LIST_RECURSIVE(ADD_RECORD_BEFORE_HEAD(CREATE_LIST(), 31));
+            Console.WriteLine();
+            READ_LIST_RECURSIVE(DELETE_HEAD(CREATE_LIST()));
+            Console.WriteLine();
+            READ_LIST_RECURSIVE(ADD_TO_LIST_1(CREATE_LIST(), 99));
+            Console.WriteLine();
+            READ_LIST_RECURSIVE(ADD_TO_LIST_2(CREATE_LIST(), 99));
+            Console.WriteLine();
+
+
+
+            static Block CREATE_LIST()
+            {
+                Block head = new Block();
+                head.data = 1;
+                Block tmp = head;
+
+                for (int i = 2; i <= 10; i++)
+                {
+                    Block newNode = new Block(); // [newnode]  [head.data=1]
+                    newNode.data = i;            // [newnode.data = i(2)]
+                    tmp.next = newNode;         // [head.data=1] -> [newnode.data =2]
+                    tmp = newNode;              // [1] -> [head.data=2]  // [2] -> [head.data=3] 
+                }
+                return head;
+            }
+            static void READ_LIST(Block head)
+            {
+                Block temp = head;
+                if(temp == null) return;
+                Console.WriteLine("head'in datası = "+temp.data);
+                while(temp != null)
+                {
+                    Console.Write(temp.data + " ");
+                    temp = temp.next;
+                }
+            }
+            static Block READ_LIST_RECURSIVE(Block node)
+            {
+                if(node == null) return null;
+                Console.Write(node.data+" ");
+                return READ_LIST_RECURSIVE(node.next);
+            }
+            static Block ADD_RECORD_BEFORE_HEAD(Block head,int data)
+            {
+                Block newNode = new Block();
+                newNode.data = data;
+                if (head == null) return newNode; //eğer gelen head boşsa newNode head olur
+                newNode.next = head; // newNode nexti head olur
+                head = newNode; // yeni head newNode olur
+                return head;
+            }
+            static Block DELETE_HEAD(Block head)
+            {
+                if(head == null) return null;
+                head= head.next; // head bir sonraki elemana kayar
+                return head;
+            }
+            static Block ADD_TO_LIST_1(Block head,int data)
+            {
+                Block newNode = new Block();
+                newNode.data = data;//                  [ 7 ]->[ 8 ]->[ 9 ]->[ 10 ]->[null]
+                if (head == null) return newNode;//                           temp
+                Block temp = head;  
+                while (temp.next != null)//temp.next kontrol edilir
+                {
+                    temp= temp.next;
+                }
+                temp.next = newNode;
+                return head;
+            }
+            static Block ADD_TO_LIST_2(Block head, int data)
+            {
+                Block newNode = new Block();
+                newNode.data = data;//                  [ 7 ]->[ 8 ]->[ 9 ]->[ 10 ]->[null]
+                Block temp = head;//                                          temp 
+                while (temp != null)//temp kontrol edilir
+                {
+                    if(temp.next == null)
+                    {
+                        temp.next = newNode;
+                        break;
+                    }
+                    temp = temp.next;
+                }
+                return head;
+            }
+            
+
+        }
         #endregion
         #region HAFTA 7 - DOUBLE LINKED LIST - STACKS
         class block // LINKED VERI YAPILARI CLASS CFG
@@ -1016,8 +1113,8 @@ namespace VERİ_YAPILARI//saaaa
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
-            hafta5();
-            
+            hafta6();
+
         }
     }
 }
