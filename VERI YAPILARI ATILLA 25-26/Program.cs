@@ -864,6 +864,8 @@ namespace VERİ_YAPILARI//saaaa
             }
         }
         #endregion
+        #region HAFTA 6 - CIRCULAR LINKED LISTS
+        #endregion
         #region HAFTA 7 - DOUBLE LINKED LIST - STACKS
         class block // LINKED VERI YAPILARI CLASS CFG
         {
