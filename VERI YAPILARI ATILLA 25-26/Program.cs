@@ -1237,6 +1237,9 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             READ_DLL_REVERSE_RECURSIVE(CREATE_DLL());                        bosluk();
             READ_DLL_RECURSIVE(ADD_BLOCK_BEFORE_HEAD(CREATE_DLL(),31));           bosluk();
             READ_DLL_RECURSIVE(ADD_BLOCK_AFTER_LAST(CREATE_DLL(),31));          bosluk();
+            READ_DLL(ADD_BLOCK_AFTER_3rd(CREATE_DLL(),99 ));                    bosluk();
+            READ_DLL(ADD_BLOCK_AFTER_3rd_FROM_THE_END(CREATE_DLL(), 99));        bosluk();
+            READ_DLL(ADD_BLOCK_AFTER_BLOCK_VALUE_EQUAL(CREATE_DLL(), 2,99)); bosluk();
 
             static void READ_DLL(Block head)
             {
@@ -1325,81 +1328,73 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             {
                 if (head == null) return null;
                  
-                Block newNode =new Block();
-                newNode.data = data;
-
                 Block temp = head;//                    temp
-                for(int i = 0; i < 3; i++)//   [5]->[6]->[7]->[8]->[9]->[10]->[null]
+                for(int i = 1; i < 3; i++)//   [1]->[2]->[3]->[4]->[5]->[6]->[null]
                 {
+                    if (temp.next == null) return head;
                     temp=temp.next;
                 }
+
+                Block newNode = new Block();
+                newNode.data = data;
+
                 newNode.prev= temp;
-                temp.next= newNode;
                 newNode.next = temp.next;
-                temp.next.prev = newNode;
+                temp.next = newNode;
+                if (temp.next != null)
+                {
+                    temp.next.prev = newNode;
+                }
                 return head;
 
             }
-        }
- 
-        class MyStack// OOP ARRAY STACK YAPISI
-        {
-            private int[] stack;
-            private int sPtr;
-
-            public MyStack(int size)
+            static Block ADD_BLOCK_AFTER_3rd_FROM_THE_END(Block head,int data)
             {
-                stack = new int[size];
-                sPtr = -1;
-            }
-
-            public void Push(int data)
-            {
-                if (sPtr == stack.Length - 1)
+                // 1 2 3 4 5 6 7 sondan 3 demek "5" demek eleman sayısı n = 7
+                // 7-3 = 4 + 1 istenen index yani n - 3 +1 = n -2 . indexi isitoyruz
+                if(head==null) return null;
+                Block temp = head;
+                int length = 0;
+                while (temp != null)
                 {
-                    Console.WriteLine("Stack dolu!");
-                    return;
+                    length++; temp = temp.next;
                 }
-                stack[++sPtr] = data;
-            }
-            public int Pop()
-            {
-                /*
-                    int data = stack[sPtr];
-                    sPtr--;
-                    return data;
-                */
-                if (sPtr == -1)
+                int hedefIndex = length - 2;
+                temp = head;
+                for(int i = 1; i < hedefIndex; i++)
                 {
-                    Console.WriteLine("Stack boş!");
-                    return -1;
+                    temp = temp.next;
                 }
-                return stack[sPtr--];
-                
-            }
-            public int Peek()
-            {
-                /*
-                    int data = stack[sPtr];
-                    return data
-                */
+                Block newNode = new Block();
+                newNode.data = data;
 
-                if (sPtr == -1)
+                newNode.prev = temp;
+                newNode.next = temp.next;
+                temp.next = newNode;
+                if (temp.next != null)
                 {
-                    Console.WriteLine("Stack boş!");
-                    return -1;
+                    temp.next.prev = newNode;
+
                 }
-                return stack[sPtr];
+                return head;
             }
-            public int Length()
+            static Block ADD_BLOCK_AFTER_BLOCK_VALUE_EQUAL(Block head,int value,int data)
             {
-                //  return sPtr+1;
-                return stack.Length;
-            }
-            public void Clear()
-            {
-                sPtr = -1;
-                Console.WriteLine("Stack temizlendi !");
+                if (head == null) return null;
+                Block temp = head;//                temp
+                while (temp.data != value)//   [1]->[2]->[3]->[4]->[5]->[6]->[null]
+                {
+                    temp = temp.next;
+                }
+                Block newNode = new Block();
+                newNode.data = data;
+
+                newNode.next= temp.next;
+                newNode.prev = temp;
+                temp.next = newNode;
+                if (temp.next != null) temp.next.prev = newNode;
+
+                return head;
             }
         }
         static void hafta77()// STACKS
@@ -1413,25 +1408,6 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
              * stack kullanarak 0 ve 1 lerden oluşan bir matristeki 1 lerin sayısını bulma. en çok 1 bulundurak grubu bulma
              */
             #endregion 
-
-            MyStack stackcık = new MyStack(10);
-            stackcık.Clear();
-            stackcık.Push(0);
-            stackcık.Push(1);
-            stackcık.Push(2);
-            stackcık.Push(3);
-            stackcık.Push(4);
-
-            Console.WriteLine("pop : " + stackcık.Peek());
-
-            for (int i = 0;i<stackcık.Length(); i++)
-            {
-                Console.WriteLine(stackcık.Pop() + " ");
-            }
-
-
-           
-
         }
         #endregion
         static void Main(string[] args) // MAIN METHOD
