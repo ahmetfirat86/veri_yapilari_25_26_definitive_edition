@@ -15,6 +15,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
     {
         static int[] mainArr = new int[10];
         static int[] mainStack = new int[10];
+        static int stackPointer = -1; 
         static int top, memX,memY,memZ,memW,memV,memU,memT;
         static Random rnd = new Random(100);
         class Block //blok yapısı
@@ -23,10 +24,8 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             public Block next;
             public Block prev;
         }
-        static void bosluk()
-        {
-            Console.WriteLine();
-        }
+        static void bosluk() {Console.WriteLine();}
+
         #region HAFTA 3 - MEMORY LAYOUT - ARRAYS
         static void ders3()
         {
@@ -1212,13 +1211,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 
         #endregion
         #region HAFTA 7 - DOUBLE LINKED LIST - STACKS
-        class block // LINKED VERI YAPILARI CLASS CFG
-        {
-            public int data;
-            public block next;
-            public block prev;
-        }
-        static void HAFTA7()// Double linked lists
+        static void HAFTA7_1()// Double linked lists
         {
             #region - DOUBLE LINKED LIST NOTES -
             /*  Tekli linked listlerde headi kaybedersek veya değişikliğe uğratırsak tekrar ulaşım mümkün değildir.SLL(singly linked list) sadece tek yönü point ederken DLL(double linked list) iki pointer ile tutulur sonucunda ram kullanımı artar. head kaybolsa bile last üzerinden listeye ulaşmak mümkündür.    */
@@ -1286,6 +1279,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                         last = newNode;
                     }
                 }
+                Console.Write("CREATED_DLL ");
                 return head;
             }
             static Block ADD_BLOCK_BEFORE_HEAD(Block head,int data)
@@ -1301,7 +1295,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 }
                 newNode.next = head;
                 head.prev=newNode;
-                head=newNode;
+                head=newNode; Console.Write("ADDED_BLOCK_BEFORE_HEAD -> ");
                 return head;
             }
             static Block ADD_BLOCK_AFTER_LAST(Block head,int data)
@@ -1322,7 +1316,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 }
                 newNode.prev= temp;
                 temp.next= newNode;
-                temp = newNode;
+                temp = newNode; Console.Write("ADDED_BLOCK_AFTER_LAST -> ");
                 return head;
             }
             static Block ADD_BLOCK_AFTER_3rd(Block head,int data)
@@ -1426,10 +1420,18 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 return head;
             }
         }
-        static void hafta77()// STACKS
+        static void hafta7_2()// STACKS
         {
             #region - STACKS NOTES -
-            /*  stacklar konusu veri yapılarının diziyle düşünme becerisini pointer mantığına dönüştürme noktasıdır. gelişmiş veri yapısıdır SON GELEN İLK ÇIKAR yani LAST İN FİRS OUT (LİFO) prensibiyle çalışır. PUSH POP PEEK temel işlemleri içerir. matematiksel ifadeler stack ile çözülür.  */
+            /*  stacklar konusu veri yapılarının diziyle düşünme becerisini pointer mantığına dönüştürme noktasıdır. gelişmiş veri yapısıdır SON GELEN İLK ÇIKAR yani LAST İN FİRS OUT (LİFO) prensibiyle çalışır. PUSH POP PEEK temel işlemleri içerir. matematiksel ifadeler stack ile çözülür. 
+             *  push -> yığına eleman ekler
+             *  pop -> yığından en üstteki elemanı cıkarır
+             *  peek -> yığının en üstteki elemanını döndürür ama yığından çıkarmaz
+             *  isEmpty -> yığının boş olup olmadığını kontrol eder
+             *  isFull -> yığının dolu olup olmadığını kontrol eder
+             *  
+             *  hafızanın bir bölümünde 4 bytelık bir bölüm olusur
+             */
             #endregion
             #region - STACKS ATİLLA ÖRNEKLER -
             /*
@@ -1437,16 +1439,14 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
              * stack kullanarak 0 ve 1 lerden oluşan bir matristeki 1 lerin sayısını bulma. en çok 1 bulundurak grubu bulma
              */
             #endregion 
+
         }
         #endregion
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
             HAFTA6();
-            HAFTA7();
-
-
-
+            HAFTA7_1();
         }
     }
 }
