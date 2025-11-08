@@ -1240,6 +1240,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             READ_DLL(ADD_BLOCK_AFTER_3rd(CREATE_DLL(),99 ));                    bosluk();
             READ_DLL(ADD_BLOCK_AFTER_3rd_FROM_THE_END(CREATE_DLL(), 99));        bosluk();
             READ_DLL(ADD_BLOCK_AFTER_BLOCK_VALUE_EQUAL(CREATE_DLL(), 2,99)); bosluk();
+            READ_DLL(ADD_BLOCK_BEFORE_BLOCK_VALUE_EQUAL(CREATE_DLL(), 2, 99)); bosluk();
 
             static void READ_DLL(Block head)
             {
@@ -1382,10 +1383,11 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             {
                 if (head == null) return null;
                 Block temp = head;//                temp
-                while (temp.data != value)//   [1]->[2]->[3]->[4]->[5]->[6]->[null]
+                while (temp!=null && temp.data != value)//   [1]->[2]->[3]->[4]->[5]->[6]->[null]
                 {
                     temp = temp.next;
                 }
+                if(temp==null) return head; // value bulunamadıysa headi döndür
                 Block newNode = new Block();
                 newNode.data = data;
 
@@ -1393,6 +1395,33 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 newNode.prev = temp;
                 temp.next = newNode;
                 if (temp.next != null) temp.next.prev = newNode;
+
+                return head;
+            }
+            static Block ADD_BLOCK_BEFORE_BLOCK_VALUE_EQUAL(Block head, int value, int data)
+            {
+                if(head==null) return null; 
+                Block temp = head;//                          temp
+                while(temp!=null && temp.data != value)//     [1]->[2]->[3]->[4]->[5]->[6]->[null] 
+                {
+                    temp = temp.next;
+                }
+                if(temp==null) return head; // value bulunamadı 
+
+                Block newNode =new Block();
+                newNode.data = data;
+
+                newNode.next = temp;
+                newNode.prev = temp.prev;
+                if (temp.prev == null)
+                {
+                    head = newNode;
+                }
+                else
+                {
+                    temp.prev.next = newNode;
+                }
+                temp.prev = newNode;
 
                 return head;
             }
