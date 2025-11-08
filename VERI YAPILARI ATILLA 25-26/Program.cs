@@ -14,8 +14,8 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
     internal class Program
     {
         static int[] mainArr = new int[10];
-        static int[] mainStack = new int[10];
-        static int stackPointer = -1; 
+        static int[] mainStack = new int[15];
+        static int stackPointer = -1; //-1 olmasının sebebi stağın boş olması
         static int top, memX,memY,memZ,memW,memV,memU,memT;
         static Random rnd = new Random(100);
         class Block //blok yapısı
@@ -1439,7 +1439,68 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
              * stack kullanarak 0 ve 1 lerden oluşan bir matristeki 1 lerin sayısını bulma. en çok 1 bulundurak grubu bulma
              */
             #endregion 
+            int[] stack_1=new int[15];
 
+            CREATE_STACK(stack_1);
+            Console.Write(" sp = " + stackPointer + " ");
+            STACK_PRINT(stack_1);
+
+            static void CREATE_STACK(int[] stack)
+            {
+                
+                Console.Write("Stack oluşturuldu! ");
+                for (int i = 0; i < stack.Length;i++)
+                {
+                    PUSH(stack,i);
+                }
+            }
+            static void PUSH(int[] stack,int data)
+            {
+                if(stackPointer == stack.Length-1)//eğer stackPointer son indeksteyse 
+                {
+                    Console.WriteLine("Stack overflow! "); return;
+                }
+                //stackPointer++;
+                //mainStack[stackPointer] = data;
+                stack[++stackPointer] = data;
+            }
+            static int POP()
+            {
+                if(stackPointer == -1)
+                {
+                    Console.WriteLine("Stack underflow! ");return -1;
+                }
+                int data = mainStack[stackPointer];
+                stackPointer--;
+                return data;
+                // return mainStack[stackPointer--] 
+            }
+            static int PEEK()
+            {
+                if (stackPointer == -1)
+                {
+                    Console.WriteLine("Stack boş! "); return -1;
+                }
+                int data = mainStack[stackPointer];
+                // int data = stackPointer.data
+                return data;
+            }
+            static int STACK_COUNT()
+            {
+                return stackPointer + 1;
+            }
+            static void STACK_PRINT(int[] stack)
+            {
+                if (stackPointer == -1)
+                {
+                    Console.WriteLine("Stack boş! ");
+                    return;
+                }
+                for(int i = 0; i < stack.Length; i++)
+                {
+                    Console.Write(stack[i]+" ");
+                }
+            }
         }
         #endregion
         static void Main(string[] args) // MAIN METHOD
@@ -1447,6 +1508,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             Console.WriteLine("ALLAH KURTARSIN!");
             HAFTA6();
             HAFTA7_1();
+            hafta7_2();
         }
     }
 }
