@@ -1736,7 +1736,128 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
              */
         }//INFIX
         #endregion
+        static void VİZE_ÖRNEKLER_ÇIKMIŞLAR()
+        {
+            static void orn1()
+            {
+                /*İnt[,,,] x= new int[2,4,5,6] , int[] y = new int[240]; x dizisinin elemanlarını y dizisine aktarınız.Ram’de nasıl saklanıyorsa o şekilde aktarmalısınız. X dizisinin ramdeki dizilişi ile Y’nin dizilişi aynı olmalıdır. (diziler)
+                2023-2024 mazeret*/
+                int[,,,] xArr = new int[2, 4, 5, 6];
+                filluparr(xArr);
+                int[] yArr = new int[240];
+                int indexY = 0;
+                for (int i =0;i<2;i++)
+                    for(int j=0;j<4;j++)
+                        for(int k=0;k<5;k++)
+                            for(int l = 0; l < 6; l++)
+                            {
+                                yArr[indexY] = xArr[i, j, k, l];
+                                indexY++;
+                            }
+                /*istenen kod buraya kadar aşağısı kodun calıstıgını göstermek için yazıldı*/
+                foreach (var item in yArr)
+                {
+                    Console.Write(item + " ");
+                }
+                static void filluparr(int[,,,] arr)
+                {
+                    for (int i = 0; i < 2; i++)
+                        for (int j = 0; j < 4; j++)
+                            for (int k = 0; k < 5; k++)
+                                for (int l = 0; l < 6; l++)
+                                    arr[i, j, k, l] = rnd.Next(0, 100);
+                }
+                Console.WriteLine();
+            }orn1();
 
+            static void orn2()
+            {
+                /*Xx*y+ab-/xy*+a-b+; postfix notasyonunda int x = 2; int y =3; int a =2;,int b = 1; değerleri içinsonucu hesaplaynıız. İşlem adımlarını detaylı gsöteriniz kod yazılmayacaktır.(postfix)
+                 2023-2024 mazeret*/
+                // XX*Y+AB-/XY*+A-B+ = ((X*X)+Y)/(A-B)+(X*Y)-A+B  !! dikkatli çözülmesi gerekiyor
+                int x = 2; int y = 3; int a = 2; int b = 1;
+                int cevap = (((x * x) + y) / (a - b)) + (x * y) - a + b;
+                Console.WriteLine(cevap); //12
+            }orn2();
+            static void orn3()
+            {
+                /*C sürücüsünün dersler dizininn içerisinde bulunan tüm alt dizinleri ekrana yazdıran kodu yazınız işlem için Directory.GetDirectories(@path); metodunu kullanınız. (stack kod)
+                 2023-2024 mazeret
+                 */
+                Stack<string> st = new Stack<string>();
+                st.Push(@"C:\");
+                while (st.Count > 0)
+                {
+                    string path = st.Pop();
+                    string[] dirs = Directory.GetDirectories(path);
+                    for (int i = 0; i < dirs.Length; i++)
+                    {
+                        Console.WriteLine(dirs[i]);
+                        st.Push(dirs[i]);
+                    }
+                }
+            }
+            static void orn4()
+            {
+                /*Önceden oluşturulmuş 2 adet çiftli linked list yapısının data olarak integer kullanılmaktadır. Bu
+                listelerin ilk elemanları head ve first bloklarıdır. Bu 2 bağlı listede ortak sayılar mevcuttur .
+                Ortak sayılar her 2 listede de birden fazla olabilir . Sayının ortak olması için diğer 2
+                listede de olması şarttır. Aynı listede birden fazla olup diğer listede olmazsa ortak
+                sayılmayacaktır. Bu listelerde ortak olarak 2 defa bulunan sayıların adedini
+                bulunuz.(linkedlist) 2021 final*/
+                Block list1 = DLL_CREATE();
+                Block list2 = DLL_CREATE();
+                Block temp = list2;
+                int defa ;
+                int count = 0;
+                if (list1 == null || list2 == null) Console.WriteLine("listeboş! ");
+                while (list1 != null)
+                {
+                    temp= list2;
+                    defa = 0;
+                    while (temp != null)
+                    {
+                        if(list1.data == temp.data)
+                        {
+                            defa++;
+                            if(defa == 2)
+                            {
+                                count++;
+                            }
+                        }
+                        temp = temp.next;
+                    }
+                    list1=list1.next;
+                }
+                /*istenen kod buraya kadar*/
+                DLL_READ(list1); DLL_READ(list2);
+                static Block DLL_CREATE()
+                {
+                    Block head = new Block();
+                    Block temp = head;
+                    for (int i = 0; i < 15; i++)
+                    {
+                        Block newNode = new Block();
+                        newNode.data = rnd.Next(0, 5);
+                        temp.next = newNode;
+                        newNode.prev = temp;
+                        temp= newNode;
+                    }
+                    return head;
+                }
+                static void DLL_READ(Block temp)
+                {
+                    while (temp != null) { Console.Write(temp.data); temp = temp.next;}
+                    Console.WriteLine();
+                }
+
+            }orn4();
+            static void orn5()
+            {
+
+            }
+
+        }
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
@@ -1745,6 +1866,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             hafta7_2();
             HAFTA8_1();
             HAFTA8_2();
+            VİZE_ÖRNEKLER_ÇIKMIŞLAR();
         }
     }
 }
