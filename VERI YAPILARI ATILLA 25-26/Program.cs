@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Threading.Channels;
 
@@ -18,6 +19,8 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         static int stackPointer = -1; //-1 olmasının sebebi stağın boş olması
         static int top, memX,memY,memZ,memW,memV,memU,memT;
         static Random rnd = new Random(100);
+        static string[] stackStringArray = new string[10000];
+        static int stackStringPointer = -1;
         class Block //blok yapısı
         {
             public int data;
@@ -1420,7 +1423,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 return head;
             }
         }
-        static void hafta7_2()// STACKS
+        static void hafta7_2()
         {
             #region - STACKS NOTES -
             /*  stacklar konusu veri yapılarının diziyle düşünme becerisini pointer mantığına dönüştürme noktasıdır. gelişmiş veri yapısıdır SON GELEN İLK ÇIKAR yani LAST İN FİRS OUT (LİFO) prensibiyle çalışır. PUSH POP PEEK temel işlemleri içerir. matematiksel ifadeler stack ile çözülür. 
@@ -1501,14 +1504,247 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                     Console.Write(stack[i]+" ");
                 }
             }
-        }
+        }//STACKS
         #endregion
+        #region HAFTA 8 - STACKS and INFIX
+        static void HAFTA8_1()
+        {
+            #region - DLL ATİLLA ÖRNEKLER -
+            /*
+            first listede herhangi bir elemana bakmaktadır listenin sizeını bul
+             */
+            #endregion
+            bosluk();
+            
+            READ_DLL_RECURSIVE(CREATE_DLL(20));                  bosluk();
+            Console.WriteLine("size = "+
+                GET_DLL_SIZE_RECURSIVE(CREATE_DLL(20))
+                );                                         
+            Console.WriteLine("size = "+
+                GET_DLL_SIZE_ITERATIVE(CREATE_DLL(20))
+                );
+            Console.WriteLine(
+                IS_IN_DLL(CREATE_DLL(20),1)
+               );
+            Console.WriteLine(
+                "dll içinde 2 -> "+
+                COUNT_ON_OCCURRENCES_IN_DLL_ITERATIVE(CREATE_DLL(21),2)
+                +"  kere geçmiştir");
+            Console.WriteLine(
+                "dll içinde 2 -> " +
+                COUNT_ON_OCCURRENCES_IN_DLL_RECURSIVE(CREATE_DLL(21), 2)
+                + "  kere geçmiştir");
+
+            Block head = CREATE_DLL(10);
+            ders4_iterative(head.next.next.next);
+            Console.WriteLine(
+                ders4_recursive(head.next.next.next, 0)
+                );
+
+
+            static Block CREATE_DLL(int size)
+            {
+                Block head = null;
+                Block last = null;
+
+                for (int i = 0; i < size; i++)
+                {
+                    Block newNode = new Block();
+                    newNode.data = i;
+                    newNode.next = null;
+                    newNode.prev = null;
+                    if (head == null)
+                    {
+                        head = last = newNode; // head=newNode last=newNode
+                    }
+                    else
+                    {
+                        last.next = newNode;
+                        newNode.prev = last;//    [5]->[6]->[7]->[8]->[9]->[10]->[newNode]
+                        last = newNode;
+                    }
+                }
+                Console.Write("CREATED_DLL ");
+                return head;
+            }
+            static Block CREATE_DLL_RECURSIVE(int size)
+            {
+                if (size <= 0) return null;
+                Block newNode = new Block();
+                newNode.data = rnd.Next(0, 100);
+                newNode.next = CREATE_DLL_RECURSIVE(size - 1);
+                if (newNode.next != null)
+                {
+                    newNode.next.prev = newNode;
+                }
+                return newNode;
+
+            }
+            static void READ_DLL_RECURSIVE(Block head)
+            {
+                if (head == null) return;
+                Console.Write(head.data+" ");
+                READ_DLL_RECURSIVE(head.next);
+            }
+            static int GET_DLL_SIZE_ITERATIVE(Block head)
+            {
+                if (head == null) return 0;
+                Block temp = head;
+                int count = 0;
+                while (temp != null)
+                {
+                    count++;
+                    temp = temp.next;
+                }
+                return count;
+            }
+            static int GET_DLL_SIZE_RECURSIVE(Block head) //geri dönüş veri tipi integer !
+            {
+                if(head == null) return 0;
+                if(head.next == head) return 1; // circular LL ise 1 döner
+                return 1+ GET_DLL_SIZE_RECURSIVE(head.next);
+            }
+            static bool IS_IN_DLL(Block head,int value)
+            {
+                if (head == null) return false;
+                Block temp = head;
+                while (temp != null)
+                {
+                    if(temp.data == value)
+                    {
+                        return true;
+                    }
+                    temp = temp.next;
+                }
+                return false;
+            }
+            static bool IS_IN_DLL_RECURSIVE(Block head, int value)
+            {
+                if(head == null) return false;
+                if(head.data == value) return true;
+                return IS_IN_DLL_RECURSIVE(head.next, value);
+            }
+            static int COUNT_ON_OCCURRENCES_IN_DLL_ITERATIVE(Block head, int value)
+            {
+                if(head ==null) return 0;
+                Block temp = head; int count = 0;
+                while (temp != null)
+                {
+                    if (temp.data == value) //daha optimize
+                        count++;
+                    temp=temp.next;
+                    /*
+                    if (temp.data == value)  fena değil çalışır
+                    {
+                        count++;
+                        temp = temp.next;
+                    }
+                    else
+                    {
+                        temp=temp.next;
+                    }
+                     */
+                }
+                return count;
+            }// !ÇIKAR!
+            static int COUNT_ON_OCCURRENCES_IN_DLL_RECURSIVE(Block head, int value)
+            {
+                if(head == null) return 0;
+                if (head.data == value)
+                    return 1 + COUNT_ON_OCCURRENCES_IN_DLL_RECURSIVE(head.next, value);
+                else
+                    return COUNT_ON_OCCURRENCES_IN_DLL_RECURSIVE(head.next, value);
+            }// !ÇIKAR!
+            static void ders4_iterative(Block temp)
+            {
+                int yon = 0; //                                             temp
+                while (temp.prev != null)//  dll        [1]-[2]-[3]-[4]-[5]-[6]
+                {
+                    temp = temp.prev;
+                }
+                yon = 1;   // !
+                while (temp.next != null)
+                {
+                    yon++;
+                    temp = temp.next;
+                }
+                Console.WriteLine(yon);
+            }
+            static int ders4_recursive(Block temp,int yon)
+            {
+                if(temp == null) return 0;//  dll     [1]-[2]-[3]-[4]-[5]-[6]
+                if (yon == 0)//                       temp
+                {
+                    if (temp.prev == null)
+                    {
+                        yon = 1;
+                    }
+                    else
+                    {
+                        temp = temp.prev;
+                    }
+                }
+                else
+                {
+                    temp = temp.next; 
+                }//                             en sola gitti soldan sağa saydı 
+                return yon+ ders4_recursive(temp, yon); //0 + 0 + 0 + 1 + 1 + 1 + 1 + 1 + 1 + 1 = 7
+            }// !ÇIKAR!
+        }//DLL OPERATIONS
+        static void HAFTA8_2()
+        {
+            #region - STACK ATİLLA ÖRNEK -
+            /*
+             Stack<string> st = new Stack<string>();
+            st.Push(@"C:\");
+            while (st.Count > 0)
+            {
+                string path = st.Pop();
+                string[] dirs = Directory.GetDirectories(path);
+                for(int i = 0; i < dirs.Length; i++)
+                {
+                    Console.WriteLine(dirs[i]);
+                    st.Push(dirs[i]);
+                }
+            }
+            */
+            #endregion
+            
+
+        }//STACK PARANTHESES CHECKER
+        static void HAFTA8_3()
+        {
+            /*
+            
+
+            A-B+C+D+F*H
+            infix = ((A-B)+C+D+(F*H))
+            postfix = AB-CD+FH*+
+            prefix = -AB+CD+*FH -> -++*ABCDFH
+
+            A+B*C
+            postfix = ABC*+
+            prefix = *+ABC
+
+            (A+B)*C
+            postfix = AB+C*
+            prefix =  *+ABC
+
+            (A+B)*(C-D)
+            postfix = (AB+)*(CD-) -> AB+CD-*
+            prefix = (+AB)*(-CD) -> *(+AB)(-CD)
+             */
+        }//INFIX
+        #endregion
+
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
             HAFTA6();
             HAFTA7_1();
             hafta7_2();
+            HAFTA8_1();
+            HAFTA8_2();
         }
     }
 }
