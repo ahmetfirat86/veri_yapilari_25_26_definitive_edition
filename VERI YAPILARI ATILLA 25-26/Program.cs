@@ -1807,30 +1807,37 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 bulunuz.(linkedlist) 2021 final*/
                 Block list1 = DLL_CREATE();
                 Block list2 = DLL_CREATE();
-                Block temp = list2;
-                int defa ;
-                int count = 0;
-                if (list1 == null || list2 == null) Console.WriteLine("listeboş! ");
-                while (list1 != null)
+                DLL_READ(list1); DLL_READ(list2);
+                orn4_code(list1,list2);
+                /*istenen kod burdan başlar*/
+                static void orn4_code(Block list1,Block list2)
                 {
-                    temp= list2;
-                    defa = 0;
-                    while (temp != null)
+                    Block temp = list2;
+                    int defa;
+                    int count = 0;
+                    if (list1 == null || list2 == null) Console.WriteLine("listeboş! ");
+                    while (list1 != null)
                     {
-                        if(list1.data == temp.data)
+                        temp = list2;
+                        defa = 0;
+                        while (temp != null)
                         {
-                            defa++;
-                            if(defa == 2)
+                            if (list1.data == temp.data)
                             {
-                                count++;
+                                defa++;
+                                if (defa == 2)
+                                {
+                                    count++;
+                                }
                             }
+                            temp = temp.next;
                         }
-                        temp = temp.next;
+                        list1 = list1.next;
                     }
-                    list1=list1.next;
+                    Console.WriteLine("cevap -> " + count);
                 }
                 /*istenen kod buraya kadar*/
-                DLL_READ(list1); DLL_READ(list2);
+                
                 static Block DLL_CREATE()
                 {
                     Block head = new Block();
@@ -1854,9 +1861,148 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             }orn4();
             static void orn5()
             {
+                /*Data ve link 100er elemanlı int tipinde 2 dizidir. Data dizsinde sayılar vardır. Link dizisinde data
+                dizisinin indisleri mevcuttur . Bu sayede lnik dizisi ile data dizisi üzerinde bağlı liste yapısı
+                oluşturulmuştur. Bağlı listenin ilk elemanı data dizisniin 70. Elemanıdır . Bu listenin tüm
+                elemanlarını sırayla ekrana recuersive olarak yazdırınız. 70ten sonra gelen eleman link[70] ile
+                alınacak ve bu şekilde devam edecektir. (linkedlist)*/
+                int[] data = new int[100];
+                int[] link = new int[100];
+                fill_arrays(data,link);
+                orn5_code_itterative(data, link); bosluk();
+                //istenen kod burdan başlars
+                static void orn5_code_recursive(int[] Data, int[] Link, int index)
+                {
+                    if (index == -1) return;            // liste bitti
 
+                    Console.Write(Data[index] + " ");   // o indexteki datayı yaz
+
+                    orn5_code_recursive(Data, Link, Link[index]); // sıradaki index'i çağır
+                }
+                static void orn5_code_itterative(int[] data, int[] link)
+                {
+                    int index = 70; // listenin ilk elemanı
+                    while(index != -1)
+                    {
+                        Console.WriteLine(data[index] + " ");
+                        index = link[index];
+                    }
+                }
+                //istenen kod buraya kadar
+                static void fill_arrays(int[] data, int[] link)
+                {
+                    for (int i = 0; i < 100; i++)
+                    {
+                        data[i] = rnd.Next(0, 100);
+                        link[i] = rnd.Next(-1, 100);
+                    }
+                    link[99] = -1; // son eleman -1 yapıldı
+                }
             }
+            static void orn6()
+            {
+                //  ABACD/+/C*+BD*-  a=1 b=12 c=4 s=2
+                // A+((B/A)+(C/D)*C)-(B*D)
+                int A = 1; int B = 12; int C = 4; int D = 2;
+                int cevap = A + ((B / A) + (C / D) * C) - (B * D);
+                Console.WriteLine(cevap);
+            }orn6();
+            static void orn7()
+            {
+                //int[,,,,,,,,,] x = [10,10,10,10,10,10,10,10,10,10] recursive toplamı
+                int[,,,,,,,,,] x = new int[10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
+                fillarray(x);
+                int[] idx = new int[10];    
+                Console.WriteLine(SumRecursive(x,idx,0));
+                static long SumRecursive(int[,,,,,,,,,] arr, int[] idx, int depth)
+                {
+                    // depth son boyut indexine ulaştıysa
+                    if (depth == 10)
+                    {
+                        return arr[idx[0], idx[1], idx[2], idx[3],
+                                    idx[4], idx[5], idx[6], idx[7],
+                                    idx[8], idx[9]];
+                    }
 
+                    long sum = 0;
+                    for (int i = 0; i < 10; i++)
+                    {
+                        idx[depth] = i;
+                        sum += SumRecursive(arr, idx, depth + 1);
+                    }
+                    return sum;
+                }
+                static void fillarray(int[,,,,,,,,,] arr) 
+                {
+                    for(int i0=0;i0<10;i0++)
+                        for(int i1=0;i1<10;i1++)
+                            for(int i2=0;i2<10;i2++)
+                                for(int i3=0;i3<10;i3++)
+                                    for(int i4=0;i4<10;i4++)
+                                        for(int i5=0;i5<10;i5++)
+                                            for(int i6=0;i6<10;i6++)
+                                                for(int i7=0;i7<10;i7++)
+                                                    for(int i8=0;i8<10;i8++)
+                                                        for(int i9=0;i9<10;i9++)
+                                                            arr[i0,i1,i2,i3,i4,i5,i6,i7,i8,i9]= rnd.Next(0,10);
+                }
+            }
+            static void orn8()
+            {
+                // 5 boyutlu dizi summ recursive
+                int[,,,,] x = new int[4, 6, 5, 3, 2];
+                int[] dimension = new int[5];
+
+                fillarray(x);
+                Console.WriteLine(sumRec(x, dimension,0));
+                static int sumRec(int[,,,,] arr,int[] dimension,int depth)
+                {
+                    if (depth == 5)
+                    {
+                        return arr[dimension[0], dimension[1], dimension[2], dimension[3], dimension[4]];
+                    }
+                    int sum = 0;
+                    for(int i = 0; i < arr.GetLength(depth); i++)
+                    {
+                        dimension[depth] = i;
+                        sum += sumRec(arr, dimension, depth + 1);
+                    }
+                    return sum;
+                }
+
+                static void fillarray(int[,,,,]arr)
+                {
+                    for(int i0=0;i0<4;i0++)
+                        for(int i1=0;i1<6;i1++)
+                            for(int i2=0;i2<5;i2++)
+                                for(int i3=0;i3<3;i3++)
+                                    for(int i4=0;i4<2;i4++)
+                                        arr[i0,i1,i2,i3,i4]= rnd.Next(0,10);
+                }
+            }orn8();
+            static void orn9()
+            {
+                // tüm elemanlarını recursvie topla yan metod
+                int[,]x = new int[10, 100];
+                static int sumRec(int[,]arr,int column , int row)
+                {
+                    if (column == arr.GetLength(0)) // satır sonu
+                    {
+                        return 0;
+                    }
+                    if (row == arr.GetLength(1)) // sütun sonu
+                    {
+                        return sumRec(arr, column + 1, 0);
+                    }
+                    return arr[column, row] + sumRec(arr, column, row + 1);
+                }
+                static void fillarray(int[,] arr)
+                {
+                    for (int i0 = 0; i0 < 10; i0++)
+                        for (int i1 = 0; i1 < 100; i1++)
+                            arr[i0, i1] = rnd.Next(0, 10);
+                }
+            }
         }
         static void Main(string[] args) // MAIN METHOD
         {
