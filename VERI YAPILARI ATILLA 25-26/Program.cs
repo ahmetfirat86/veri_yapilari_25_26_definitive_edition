@@ -10,6 +10,13 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
      * Hazır fonksiyonlar kullanılmamalı.
      * Her veri yapısını manuel olarak oluşturmalı.
      * Her veri yapısının recursive alternatifi bilinmeli.
+     * Hocanızın en belirgin özelliği, C#'ın sunduğu hazır kütüphaneleri ve yöntemleri kullanmak yerine, her şeyi "sıfırdan" (manual) ve bellek adresleme mantığıyla yaptırmasıdır.
+    • Düşük Seviyeli Düşünme: Değişkenleri sadece birer isim olarak değil, RAM üzerindeki adresler ve kapladıkları byte'lar üzerinden değerlendirir
+    • Hazır Metot Yasağı: Sınavlarda List, Dictionary, Array.Sort, IndexOf, Substring gibi hazır yapıların ve hatta foreach döngüsünün kullanılmasını kesinlikle istemez; puan kıracağını veya sıfır vereceğini açıkça belirtir
+    • Rekürsif (Özyinelemeli) Yaklaşım: Hocanız için rekürsif çözümler "puan anahtarıdır". Bir problemi hem döngüyle hem rekürsif çözmenizi bekler ve rekürsif çözüme genellikle daha yüksek puan verir
+    • Performans Odaklılık: Kodun sadece çalışması yetmez; hangi döngünün daha az işlem yapacağı veya bellekte nasıl daha hızlı hareket edileceği (örneğin matrisleri satır bazlı okumak) onun için kritiktir
+    • Veri Yapılarını Manuel İnşa Etme: Stack, Queue ve Linked List gibi yapıları C#'ın kendi sınıflarıyla değil, kendi oluşturduğu Block veya MyBlock gibi sınıflarla kurar
+.
      */
     #endregion 
     internal class Program
@@ -1736,6 +1743,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
              */
         }//INFIX
         #endregion
+        #region VİZE ÖRNEKLERİ
         static void VİZE_ÖRNEKLER_ÇIKMIŞLAR()
         {
             static void orn1()
@@ -2004,6 +2012,13 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 }
             }
         }
+        #endregion
+        #region HAFTA 11 - 
+        static void hf9()
+        {
+
+        }
+        #endregion
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
