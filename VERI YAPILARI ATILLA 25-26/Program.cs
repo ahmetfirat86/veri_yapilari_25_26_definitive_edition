@@ -1713,9 +1713,8 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             static int pop()
             {
                 if (sp <= -1) return -1; 
-                int data = stack[sp];
+                return stack[sp];
                 sp--; 
-                return data;
             }
             static int peek()
             {
@@ -1744,10 +1743,12 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             }
             static int peekll()
             {
+                if(spll == null) return -1;
                 return spll.data;
             }
             for (int i = 0; i < 10; i++) pushll(i);
             Console.WriteLine(peekll());
+            for (int i = 0; i < 10; i++) Console.WriteLine(popll());
         }
         static void HAFTA8_3()
         {
