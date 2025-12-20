@@ -28,6 +28,9 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         static Random rnd = new Random(100);
         static string[] stackStringArray = new string[10000];
         static int stackStringPointer = -1;
+        static int[] stack = new int[5];
+        static int sp = -1; // Stack pointer dizi tabanlı
+        static Block spll = null; // stack pointer linked list tabanlı
         class Block //blok yapısı
         {
             public int data;
@@ -1698,32 +1701,57 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 return yon+ ders4_recursive(temp, yon); //0 + 0 + 0 + 1 + 1 + 1 + 1 + 1 + 1 + 1 = 7
             }// !ÇIKAR!
         }//DLL OPERATIONS
-        static void HAFTA8_2()
+        static void HAFTA8_2()//STACK METOTLARI
         {
-            #region - STACK ATİLLA ÖRNEK -
-            /*
-             Stack<string> st = new Stack<string>();
-            st.Push(@"C:\");
-            while (st.Count > 0)
+            // dizi tabanlı stack metotları
+            static void push(int data)
             {
-                string path = st.Pop();
-                string[] dirs = Directory.GetDirectories(path);
-                for(int i = 0; i < dirs.Length; i++)
-                {
-                    Console.WriteLine(dirs[i]);
-                    st.Push(dirs[i]);
-                }
+                if (sp >= stack.Length - 1) return; // Taşma (overflow) kontrolü 
+                sp++;
+                stack[sp] = data; 
             }
-            */
-            #endregion
-            
+            static int pop()
+            {
+                if (sp <= -1) return -1; 
+                int data = stack[sp];
+                sp--; 
+                return data;
+            }
+            static int peek()
+            {
+                return stack[sp]; 
+            }
+            for (int i = 0; i < stack.Length; i++)
+            {
+                push(i);
+            }
+            Console.WriteLine(peek());
 
-        }//STACK PARANTHESES CHECKER
+            // linked list tabanlı stack metotları
+            static void pushll(int data)
+            {
+                Block newBlock = new Block();
+                newBlock.data = data;
+                newBlock.next = spll;
+                spll = newBlock; 
+            }
+            static int popll()
+            {
+                if (spll == null) return -1;
+                int tmp = spll.data;
+                spll = spll.next; 
+                return tmp;
+            }
+            static int peekll()
+            {
+                return spll.data;
+            }
+            for (int i = 0; i < 10; i++) pushll(i);
+            Console.WriteLine(peekll());
+        }
         static void HAFTA8_3()
         {
             /*
-            
-
             A-B+C+D+F*H
             infix = ((A-B)+C+D+(F*H))
             postfix = AB-CD+FH*+
@@ -2022,12 +2050,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
-            HAFTA6();
-            HAFTA7_1();
-            hafta7_2();
-            HAFTA8_1();
             HAFTA8_2();
-            VİZE_ÖRNEKLER_ÇIKMIŞLAR();
         }
     }
 }
