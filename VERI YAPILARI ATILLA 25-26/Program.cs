@@ -1517,7 +1517,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         }//STACKS
         #endregion
         #region HAFTA 8 - STACKS and INFIX
-        static void HAFTA8_1()
+        static void HAFTA8_1()//DLL OPERATIONS
         {
             #region - DLL ATİLLA ÖRNEKLER -
             /*
@@ -1700,10 +1700,10 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 }//                             en sola gitti soldan sağa saydı 
                 return yon+ ders4_recursive(temp, yon); //0 + 0 + 0 + 1 + 1 + 1 + 1 + 1 + 1 + 1 = 7
             }// !ÇIKAR!
-        }//DLL OPERATIONS
+        }
         static void HAFTA8_2()//STACK METOTLARI
         {
-            // dizi tabanlı stack metotları
+            #region dizi tabanlı stack metotları
             static void push(int data)
             {
                 if (sp >= stack.Length - 1) return; // Taşma (overflow) kontrolü 
@@ -1720,13 +1720,8 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             {
                 return stack[sp]; 
             }
-            for (int i = 0; i < stack.Length; i++)
-            {
-                push(i);
-            }
-            Console.WriteLine(peek());
-
-            // linked list tabanlı stack metotları
+            #endregion
+            #region linked list tabanlı stack metotları
             static void pushll(int data)
             {
                 Block newBlock = new Block();
@@ -1746,12 +1741,109 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 if(spll == null) return -1;
                 return spll.data;
             }
-            for (int i = 0; i < 10; i++) pushll(i);
-            Console.WriteLine(peekll());
-            for (int i = 0; i < 10; i++) Console.WriteLine(popll());
+            #endregion
+            string str = "Merhaba Dünya";
+            for (int i = 0; i < str.Length; i++)
+            {
+                pushll(str[i]);
+            }
+            while (spll != null)
+            {
+                Console.Write((char)popll());
+            }
+            static void örn1()//Verilen stringin palindromik olup olmadığını stacklar yardımı ile bulunuz
+            {
+                string str = "abba";
+                int hata = 0;
+                for (int i = 0; i < str.Length; i++)
+                {
+                    push(str[i]);
+                }
+                for (int i = 0; i < str.Length; i++)
+                {
+                    if (pop() != str[i])
+                    {
+                        hata = 1; break;
+                    }
+                }
+                if (hata == 0) { Console.WriteLine("palindromik"); }
+                else { Console.WriteLine("Palindromik değil"); }
+            }örn1();
+            static void örn2()//Açık parantezi kapatma sorusunu stack yardımı ile çözünüz
+            {
+                string st = "{g{[s(((f))h)d]}}";
+                int hata = 0;
+                string sol = "([{";
+                string sağ = ")]}";
+                for (int i = 0; i < st.Length; i++)
+                {
+                    int ind = sol.IndexOf(st[i]);
+                    if (ind != -1)
+                    {
+                        push(sağ[ind]);
+                    }
+                    else
+                    {
+                        ind = sağ.IndexOf(st[i]);
+                        if (ind != -1)
+                        {
+                            if (pop() != st[i])
+                            {
+                                hata = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (hata == 0) { Console.WriteLine("Hatasız"); }
+                else { Console.WriteLine("Hatalı"); }
+            }örn2();
+            static void örn3()//Infix'ten Postfix'e dönüşüm ve Postfix ifadenin sayısal değeri 
+            {
+                string infix = "a+b*c/d-e";
+                string postfix = "";
+                string op = "$-+/*()";
+                int[] once = { 0, 1, 1, 2, 2 };
+                push((byte)'$');
+                for (int i = 0; i < infix.Length; i++)
+                {
+                    if (op.IndexOf(infix[i]) == -1)
+                    {
+                        while (op.IndexOf(infix[i]) == -1)
+                        {
+                            postfix += infix[i++];
+                        }
+                        continue;
+                    }
+                    if (infix[i] == '(')
+                    {
+                        while (peek() != (byte)'(')
+                        {
+                            postfix += (char)pop();
+                        }
+                        pop();
+                        continue;
+                    }
+                    int a = peek();
+                    if (once[op.IndexOf(infix[i])] > once[op.IndexOf((char)a)])
+                    {
+                        push(infix[i]);
+                    }
+                    else
+                    {
+                        postfix += (char)pop();
+                    }
+                }
+                while (peek() != (byte)'$')
+                {
+                    postfix += (char)pop();
+                }
+                Console.WriteLine(postfix);
+            }
         }
-        static void HAFTA8_3()
+        static void HAFTA8_3()//INFIX
         {
+            
             /*
             A-B+C+D+F*H
             infix = ((A-B)+C+D+(F*H))
@@ -1770,7 +1862,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             postfix = (AB+)*(CD-) -> AB+CD-*
             prefix = (+AB)*(-CD) -> *(+AB)(-CD)
              */
-        }//INFIX
+        }
         #endregion
         #region VİZE ÖRNEKLERİ
         static void VİZE_ÖRNEKLER_ÇIKMIŞLAR()
