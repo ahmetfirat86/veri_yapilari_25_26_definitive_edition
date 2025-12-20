@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Security.Claims;
 using System.Threading.Channels;
 
 namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
@@ -26,7 +27,9 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         static Random rnd = new Random(100);
         static string[] stackStringArray = new string[10000];
         static int stackStringPointer = -1;
-        static int[] stack = new int[5];
+        static int[] mainStack = new int[5];
+        static int sp = -1;
+        static Block spll = null; //stackin headi
         class Block //blok yapısı
         {
             public int data;
@@ -34,55 +37,6 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             public Block prev;
         }
         static void bosluk() {Console.WriteLine();}
-
-        class StackOperations //dizi tabanlı stack metotları
-        {
-            public static void Push(int[] stack,int data,ref int stackPointer)
-            {
-                if (stackPointer == stack.Length - 1)
-                {
-                    Console.WriteLine("HATA: Stack overflow oldu kappat amg");
-                    return;
-                }
-                stack[++stackPointer] = data;
-            }
-            public static int Pop(int[] stack,ref int stackPointer)
-            {
-                return stack[stackPointer--];
-            }
-            static int Peek(int[] stack,int stackPointer)
-            {
-                if (stackPointer == -1)
-                {
-                    Console.WriteLine("HATA: Stack boş kapppat amg");
-                    return -1;
-                }
-                return stack[stackPointer];
-            }
-        }
-        #region linked list tabanlı stack metotları
-        static Block spll = null; // stack pointer linked list tabanlı
-        static void pushll(int data)
-        {
-            Block newBlock = new Block();
-            newBlock.data = data;
-            newBlock.next = spll;
-            spll = newBlock;
-        }
-        static int popll()
-        {
-            if (spll == null) return -1;
-            int tmp = spll.data;
-            spll = spll.next;
-            return tmp;
-        }
-        static int peekll()
-        {
-            if (spll == null) return -1;
-            return spll.data;
-        }
-        #endregion
-
         #region HAFTA 3 - MEMORY LAYOUT - ARRAYS
         static void ders3()
         {
@@ -1477,88 +1431,6 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 return head;
             }
         }
-        static void hafta7_2()
-        {
-            #region - STACKS NOTES -
-            /*  stacklar konusu veri yapılarının diziyle düşünme becerisini pointer mantığına dönüştürme noktasıdır. gelişmiş veri yapısıdır SON GELEN İLK ÇIKAR yani LAST İN FİRS OUT (LİFO) prensibiyle çalışır. PUSH POP PEEK temel işlemleri içerir. matematiksel ifadeler stack ile çözülür. 
-             *  push -> yığına eleman ekler
-             *  pop -> yığından en üstteki elemanı cıkarır
-             *  peek -> yığının en üstteki elemanını döndürür ama yığından çıkarmaz
-             *  isEmpty -> yığının boş olup olmadığını kontrol eder
-             *  isFull -> yığının dolu olup olmadığını kontrol eder
-             *  
-             *  hafızanın bir bölümünde 4 bytelık bir bölüm olusur
-             */
-            #endregion
-            #region - STACKS ATİLLA ÖRNEKLER -
-            /*
-             * Stack kullanarak bilgisayar dizinlerini terminalde yazdıran kod
-             * stack kullanarak 0 ve 1 lerden oluşan bir matristeki 1 lerin sayısını bulma. en çok 1 bulundurak grubu bulma
-             */
-            #endregion 
-            int[] stack_1=new int[15];
-
-            CREATE_STACK(stack_1);
-            Console.Write(" sp = " + stackPointer + " ");
-            STACK_PRINT(stack_1);
-
-            static void CREATE_STACK(int[] stack)
-            {
-                
-                Console.Write("Stack oluşturuldu! ");
-                for (int i = 0; i < stack.Length;i++)
-                {
-                    PUSH(stack,i);
-                }
-            }
-            static void PUSH(int[] stack,int data)
-            {
-                if(stackPointer == stack.Length-1)//eğer stackPointer son indeksteyse 
-                {
-                    Console.WriteLine("Stack overflow! "); return;
-                }
-                //stackPointer++;
-                //mainStack[stackPointer] = data;
-                stack[++stackPointer] = data;
-            }
-            static int POP()
-            {
-                if(stackPointer == -1)
-                {
-                    Console.WriteLine("Stack underflow! ");return -1;
-                }
-                int data = mainStack[stackPointer];
-                stackPointer--;
-                return data;
-                // return mainStack[stackPointer--] 
-            }
-            static int PEEK()
-            {
-                if (stackPointer == -1)
-                {
-                    Console.WriteLine("Stack boş! "); return -1;
-                }
-                int data = mainStack[stackPointer];
-                // int data = stackPointer.data
-                return data;
-            }
-            static int STACK_COUNT()
-            {
-                return stackPointer + 1;
-            }
-            static void STACK_PRINT(int[] stack)
-            {
-                if (stackPointer == -1)
-                {
-                    Console.WriteLine("Stack boş! ");
-                    return;
-                }
-                for(int i = 0; i < stack.Length; i++)
-                {
-                    Console.Write(stack[i]+" ");
-                }
-            }
-        }//STACKS
         #endregion
         #region HAFTA 8 - STACKS and INFIX
         static void HAFTA8_1()//DLL OPERATIONS
@@ -1747,6 +1619,86 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         }
         static void HAFTA8_2()//STACK METOTLARI
         {
+
+            #region - STACKS NOTES -
+            /*  stacklar konusu veri yapılarının diziyle düşünme becerisini pointer mantığına dönüştürme noktasıdır. gelişmiş veri yapısıdır SON GELEN İLK ÇIKAR yani LAST İN FİRS OUT (LİFO) prensibiyle çalışır. PUSH POP PEEK temel işlemleri içerir. matematiksel ifadeler stack ile çözülür. 
+             *  push -> yığına eleman ekler
+             *  pop -> yığından en üstteki elemanı cıkarır
+             *  peek -> yığının en üstteki elemanını döndürür ama yığından çıkarmaz
+             *  isEmpty -> yığının boş olup olmadığını kontrol eder
+             *  isFull -> yığının dolu olup olmadığını kontrol eder
+             *  
+             *  hafızanın bir bölümünde 4 bytelık bir bölüm olusur
+             */
+            #endregion
+            #region - STACKS ATİLLA ÖRNEKLER -
+            /*
+             * Stack kullanarak bilgisayar dizinlerini terminalde yazdıran kod
+             * stack kullanarak 0 ve 1 lerden oluşan bir matristeki 1 lerin sayısını bulma. en çok 1 bulundurak grubu bulma
+             */
+            #endregion
+            #region - STACK METOTLARI arr -
+            static void push(int value)
+            {
+                if (sp == mainStack.Length - 1)
+                {
+                    Console.WriteLine("Stack overflow");
+                    return;
+                }
+                mainStack[++sp] = value;
+            }
+            static int pop()
+            {
+                if (sp == -1)
+                {
+                    Console.WriteLine("Stack underflow");
+                    return -1;
+                }
+                return mainStack[sp--];
+            }
+            static int peek()
+            {
+                return mainStack[sp];
+            }
+            #endregion
+            #region - STACK METOTLARI linked -
+            static void pushll(int data)
+            {
+                Block newBlock = new Block();
+                newBlock.data = data;
+                newBlock.next = spll;
+                spll=newBlock;
+            }
+            static int popll()
+            {
+                if (spll == null){Console.WriteLine("Stack underflow"); return -1;}
+                int returnData = spll.data;
+                spll = spll.next;
+                return returnData;
+            }
+            static int peekll()
+            {
+                return spll.data;
+            }
+            #endregion
+            /*
+               A-B+C+D+F*H
+               infix = ((A-B)+C+D+(F*H))
+               postfix = AB-CD+FH*+
+               prefix = -AB+CD+*FH -> -++*ABCDFH
+
+               A+B*C
+               postfix = ABC*+
+               prefix = *+ABC
+
+               (A+B)*C
+               postfix = AB+C*
+               prefix =  *+ABC
+
+               (A+B)*(C-D)
+               postfix = (AB+)*(CD-) -> AB+CD-*
+               prefix = (+AB)*(-CD) -> *(+AB)(-CD)
+            */
             static void örn1()//Verilen stringin palindromik olup olmadığını stacklar yardımı ile bulunuz
             {
                 string str = "abba";
@@ -1836,47 +1788,6 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 }
                 Console.WriteLine(postfix);
             }
-            static void örn4()//postfix
-            {
-                string infix = "a+b*c/d-e";
-                string postfix = "";
-                string ch = "$/+_*/)";
-                string pr = "001122";
-                
-
-                for( int i = 0; i< infix.Length; i++)
-                {
-                    int index = ch.IndexOf(infix[i]);
-                    if(index ==-1) postfix = postfix+ infix[i];
-                    if (index == 1){ st.push();continue; }
-                    if(index == 6)
-                    {
-                        while()
-                    }
-                }
-            }
-        }
-        static void HAFTA8_3()//INFIX
-        {
-            
-            /*
-            A-B+C+D+F*H
-            infix = ((A-B)+C+D+(F*H))
-            postfix = AB-CD+FH*+
-            prefix = -AB+CD+*FH -> -++*ABCDFH
-
-            A+B*C
-            postfix = ABC*+
-            prefix = *+ABC
-
-            (A+B)*C
-            postfix = AB+C*
-            prefix =  *+ABC
-
-            (A+B)*(C-D)
-            postfix = (AB+)*(CD-) -> AB+CD-*
-            prefix = (+AB)*(-CD) -> *(+AB)(-CD)
-             */
         }
         #endregion
         #region VİZE ÖRNEKLERİ
@@ -2149,16 +2060,113 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             }
         }
         #endregion
-        #region HAFTA 11 - 
-        static void hf9()
+        #region HAFTA 11 - STACKS and INFIX-POSTFIX-PREFIX
+        static void H11()
         {
+            //infix → postfix dönüşümü - çözüm 0 ÖNEMLİ KAVRAMAK LAZIM
+            static void inf_to_postf_0()
+            {
+                Console.WriteLine("beklenen: ababc*-d+*+fg/-   ");
+                Stack<char> st = new Stack<char>();
+                string infix = "a+b*(a-b*c+d)-f/g";
+                string postfix = "";
 
+                int Priority(char op)
+                {
+                    if (op == '+' || op == '-') return 1;
+                    if (op == '*' || op == '/') return 2;
+                    return 0;
+                }
+
+                foreach (char c in infix)
+                {
+                    // Operand
+                    if (char.IsLetterOrDigit(c))
+                    {
+                        postfix += c;
+                    }
+                    // Açık parantez
+                    else if (c == '(')
+                    {
+                        st.Push(c);
+                    }
+                    // Kapalı parantez
+                    else if (c == ')')
+                    {
+                        while (st.Peek() != '(')
+                            postfix += st.Pop();
+                        st.Pop(); // '(' çıkar
+                    }
+                    // Operatör
+                    else
+                    {
+                        while (st.Count > 0 && Priority(st.Peek()) >= Priority(c))
+                            postfix += st.Pop();
+                        st.Push(c);
+                    }
+                }
+
+                // Stack’te kalan operatörler
+                while (st.Count > 0)
+                    postfix += st.Pop();
+
+                Console.WriteLine("cevap:   "+postfix);
+            }inf_to_postf_0();
+
+            // infix → postfix dönüşümü -çözüm 1  ÖNEMLİ KAVRAMAK LAZIM
+            static void inf_to_postf_1()
+            {
+                Stack<string> st = new Stack<string>();
+                string infix = "a+b*(a-b*c+d)-f/g"; Console.WriteLine("beklenen: ababc*-d+*+fg/-");
+                string postfix = "";
+                string chars = "$(+-*/)";
+                string priority = "001122";
+
+                for (int i = 0; i < infix.Length; i++)
+                {
+                    int index = chars.IndexOf(infix[i]);
+
+                    if (index == -1)// operand
+                    {
+                        postfix = postfix + infix[i];
+                        continue;
+                    }
+                    if (index == 1)// " ( "
+                    {
+                        st.Push("(");
+                        continue;
+                    }
+                    if (index == 6)// " ) "
+                    {
+                        while(st.Peek() !="(")
+                        {
+                            postfix = postfix + st.Pop();
+                        }
+                        st.Pop();
+                        continue;
+                    }
+                    while (st.Count > 0 &&
+                        st.Peek()!="(" &&
+                        priority[chars.IndexOf(st.Peek())] >= priority[index]
+                        )// operatör
+                    {
+                        postfix = postfix + st.Pop();
+                    }
+                    st.Push(infix[i].ToString());
+                }
+                while (st.Count > 0)// stackte kalan operatörler
+                {
+                    postfix = postfix + st.Pop();
+                }
+                Console.WriteLine("cevap:  "+postfix);
+            }inf_to_postf_1();
         }
         #endregion
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
             HAFTA8_2();
+            H11();
         }
     }
 }
