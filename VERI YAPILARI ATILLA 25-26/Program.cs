@@ -1671,7 +1671,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             }
             static int popll()
             {
-                if (spll == null){Console.WriteLine("Stack underflow"); return -1;}
+                if (spll == null){Console.WriteLine("StaSck underflow"); return -1;}
                 int returnData = spll.data;
                 spll = spll.next;
                 return returnData;
@@ -2060,8 +2060,8 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             }
         }
         #endregion
-        #region HAFTA 11 - STACKS and INFIX-POSTFIX-PREFIX
-        static void H11()
+        #region HAFTA 10 - STACKS and INFIX-POSTFIX-PREFIX
+        static void H10()
         {
             //infix → postfix dönüşümü - çözüm 0 ÖNEMLİ KAVRAMAK LAZIM
             static void inf_to_postf_0()
@@ -2160,13 +2160,83 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 }
                 Console.WriteLine("cevap:  "+postfix);
             }inf_to_postf_1();
+
+            //postix → infix dönüşümü - çözüm 0 ÖNEMLİ KAVRAMAK LAZIM
+            static void postf_to_inf_0()
+            {
+                Stack<string> st = new Stack<string>();
+                string postfix = "ababc*-d+*+fg/-"; Console.WriteLine("beklenen: a+b*(a-b*c+d)-f/g");
+                string infix = "";
+                string chars = "+-*/";
+                for (int i = 0; i < postfix.Length; i++)
+                {
+                    int index = chars.IndexOf(postfix[i]);
+                    if (index == -1)// operand
+                    {
+                        st.Push(postfix[i].ToString());
+                        continue;
+                    }
+                    // operatör
+                    string op2 = st.Pop();
+                    string op1 = st.Pop();
+                    string expr = "(" + op1 + postfix[i] + op2 + ")";
+                    st.Push(expr);
+                }
+                infix = st.Pop();
+                Console.WriteLine("cevap:  "+infix);
+            }
+
+            //postix → infix dönüşümü - çözüm 0 ÖNEMLİ KAVRAMAK LAZIM
+            static void inf_to_postf_2()
+            {
+                int topla(int a, int b) => a + b;
+                int cikar(int a, int b) => a - b;
+                int carp(int a, int b) => a * b;
+                int bol(int a, int b) => a / b;
+
+                string postfix = "abcd/-*e+";
+                string operands = "abcde";
+                int[] degerler = { 1, 2, 3, 3, 4 };
+
+                Stack<int> stack = new Stack<int>();
+
+                for (int i = 0; i < postfix.Length; i++)
+                {
+                    int index = operands.IndexOf(postfix[i]);
+
+                    if (index != -1) // operand
+                    {
+                        stack.Push(degerler[index]);
+                    }
+                    else // operator
+                    {
+                        int sagOperand = stack.Pop();
+                        int solOperand = stack.Pop();
+                        int sonuc = 0;
+
+                        if (postfix[i] == '+') sonuc = topla(solOperand, sagOperand);
+                        if (postfix[i] == '-') sonuc = cikar(solOperand, sagOperand);
+                        if (postfix[i] == '*') sonuc = carp(solOperand, sagOperand);
+                        if (postfix[i] == '/') sonuc = bol(solOperand, sagOperand);
+                        stack.Push(sonuc);
+                    }
+                }
+
+                Console.WriteLine("Sonuç: " + stack.Pop());
+            }
+        }
+        #endregion
+        #region HAFTA 11 - QUEUES and CIRCULAR LINKED LISTS
+        static void H11()
+        {
+            // QUEUES and CIRCULAR LINKED LISTS METOTLARI
         }
         #endregion
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
             HAFTA8_2();
-            H11();
+            H10();
         }
     }
 }
