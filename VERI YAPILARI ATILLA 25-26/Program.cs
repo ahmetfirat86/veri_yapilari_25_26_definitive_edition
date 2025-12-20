@@ -22,15 +22,11 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
     internal class Program
     {
         static int[] mainArr = new int[10];
-        static int[] mainStack = new int[15];
-        static int stackPointer = -1; //-1 olmasının sebebi stağın boş olması
         static int top, memX,memY,memZ,memW,memV,memU,memT;
         static Random rnd = new Random(100);
         static string[] stackStringArray = new string[10000];
         static int stackStringPointer = -1;
         static int[] stack = new int[5];
-        static int sp = -1; // Stack pointer dizi tabanlı
-        static Block spll = null; // stack pointer linked list tabanlı
         class Block //blok yapısı
         {
             public int data;
@@ -38,6 +34,54 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             public Block prev;
         }
         static void bosluk() {Console.WriteLine();}
+
+        class StackOperations //dizi tabanlı stack metotları
+        {
+            public static void Push(int[] stack,int data,ref int stackPointer)
+            {
+                if (stackPointer == stack.Length - 1)
+                {
+                    Console.WriteLine("HATA: Stack overflow oldu kappat amg");
+                    return;
+                }
+                stack[++stackPointer] = data;
+            }
+            public static int Pop(int[] stack,ref int stackPointer)
+            {
+                return stack[stackPointer--];
+            }
+            static int Peek(int[] stack,int stackPointer)
+            {
+                if (stackPointer == -1)
+                {
+                    Console.WriteLine("HATA: Stack boş kapppat amg");
+                    return -1;
+                }
+                return stack[stackPointer];
+            }
+        }
+        #region linked list tabanlı stack metotları
+        static Block spll = null; // stack pointer linked list tabanlı
+        static void pushll(int data)
+        {
+            Block newBlock = new Block();
+            newBlock.data = data;
+            newBlock.next = spll;
+            spll = newBlock;
+        }
+        static int popll()
+        {
+            if (spll == null) return -1;
+            int tmp = spll.data;
+            spll = spll.next;
+            return tmp;
+        }
+        static int peekll()
+        {
+            if (spll == null) return -1;
+            return spll.data;
+        }
+        #endregion
 
         #region HAFTA 3 - MEMORY LAYOUT - ARRAYS
         static void ders3()
@@ -1703,54 +1747,6 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         }
         static void HAFTA8_2()//STACK METOTLARI
         {
-            #region dizi tabanlı stack metotları
-            static void push(int data)
-            {
-                if (sp >= stack.Length - 1) return; // Taşma (overflow) kontrolü 
-                sp++;
-                stack[sp] = data; 
-            }
-            static int pop()
-            {
-                if (sp <= -1) return -1; 
-                return stack[sp];
-                sp--; 
-            }
-            static int peek()
-            {
-                return stack[sp]; 
-            }
-            #endregion
-            #region linked list tabanlı stack metotları
-            static void pushll(int data)
-            {
-                Block newBlock = new Block();
-                newBlock.data = data;
-                newBlock.next = spll;
-                spll = newBlock; 
-            }
-            static int popll()
-            {
-                if (spll == null) return -1;
-                int tmp = spll.data;
-                spll = spll.next; 
-                return tmp;
-            }
-            static int peekll()
-            {
-                if(spll == null) return -1;
-                return spll.data;
-            }
-            #endregion
-            string str = "Merhaba Dünya";
-            for (int i = 0; i < str.Length; i++)
-            {
-                pushll(str[i]);
-            }
-            while (spll != null)
-            {
-                Console.Write((char)popll());
-            }
             static void örn1()//Verilen stringin palindromik olup olmadığını stacklar yardımı ile bulunuz
             {
                 string str = "abba";
@@ -1839,6 +1835,25 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                     postfix += (char)pop();
                 }
                 Console.WriteLine(postfix);
+            }
+            static void örn4()//postfix
+            {
+                string infix = "a+b*c/d-e";
+                string postfix = "";
+                string ch = "$/+_*/)";
+                string pr = "001122";
+                
+
+                for( int i = 0; i< infix.Length; i++)
+                {
+                    int index = ch.IndexOf(infix[i]);
+                    if(index ==-1) postfix = postfix+ infix[i];
+                    if (index == 1){ st.push();continue; }
+                    if(index == 6)
+                    {
+                        while()
+                    }
+                }
             }
         }
         static void HAFTA8_3()//INFIX
