@@ -25,17 +25,25 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         static int[] mainArr = new int[10];
         static int top, memX,memY,memZ,memW,memV,memU,memT;
         static Random rnd = new Random(100);
-        static string[] stackStringArray = new string[10000];
-        static int stackStringPointer = -1;
-        static int[] mainStack = new int[5];
-        static int sp = -1;
-        static Block spll = null; //stackin headi
         class Block //blok yapısı
         {
             public int data;
             public Block next;
             public Block prev;
         }
+        static Block spll = null; //stackin headi
+
+        static string[] stackStringArray = new string[10000];
+        static int sp = -1;
+        static int stackStringPointer = -1;
+        static int[] mainStack = new int[5];
+
+        static int front = 0;
+        static int rear = -1;
+        static int[] mainQueue = new int[5];
+
+        static Block frontll = null;
+        static Block rearll = null;
         static void bosluk() {Console.WriteLine();}
         #region HAFTA 3 - MEMORY LAYOUT - ARRAYS
         static void ders3()
@@ -2229,7 +2237,72 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         #region HAFTA 11 - QUEUES and CIRCULAR LINKED LISTS
         static void H11()
         {
-            // QUEUES and CIRCULAR LINKED LISTS METOTLARI
+            // FIRST IN FIRST OUT - LAST IN LAST OUT
+            // Kuyruğa eleman almak -> enqueue
+            // Kuyruktan eleman çıkarmak -> dequeue
+            // front ve rear pointerları kullanılır
+            // kuyruklar aynı stacklardaki gibi iki şekilde inceleyeceğiz 1-)diziler 2-)linked listler
+
+            #region - QUEUES ARRAY BASED METOTLARI -
+            static int elemansayisi()
+            {
+                return rear - front + 1;
+            }
+            static void enqueue(int data)
+            {
+                if(rear == mainQueue.Length - 1)
+                {
+                    Console.WriteLine("Queue overflow");
+                    return;
+                }
+                mainQueue[++rear] = data;
+            }
+            static int dequeue()
+            {
+                return mainQueue[front++];
+            }
+            static int peekqueue()
+            {
+                return mainQueue[front];
+            }
+            #endregion
+
+            #region - QUEUES LINKED LIST BASED METOTLARI -
+            
+            static void enqueue_ll(int data)
+            {
+                Block newBlock = new Block();
+                newBlock.data = data;
+                newBlock.next = null;
+                newBlock.prev = null;
+                if (rearll == null)
+                {
+                    frontll = newBlock;
+                    rearll = newBlock;
+                    return;
+                }
+                rearll.next = newBlock;
+                newBlock.prev = rearll;
+                rearll = newBlock;
+            }
+            static int dequeue_ll()
+            {
+                if(frontll == null)
+                {
+                    Console.WriteLine("Queue underflow");
+                    return -1;
+                }
+                int returnData = frontll.data;
+                frontll = frontll.next;
+                return returnData;
+            }
+                #endregion
+            }
+        #endregion
+        #region HAFTA 12 - QUEUES and CIRCULAR LINKED LISTS EXAMPLES
+        static void H12()
+        {
+
         }
         #endregion
         static void Main(string[] args) // MAIN METHOD
@@ -2237,6 +2310,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             Console.WriteLine("ALLAH KURTARSIN!");
             HAFTA8_2();
             H10();
+            H11();
         }
     }
 }
