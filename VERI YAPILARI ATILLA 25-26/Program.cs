@@ -6,13 +6,12 @@ using System.Threading.Channels;
 
 namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 {
-    /*
-     * Euzu billahi mineşşeytanirracim ve Bismillahirrahmanirrahim.
-     * Allah’ım, veri yapıları dersinde ilmi doğru anlamayı ve emeğimin karşılığını almayı nasip eyle. Çalışmamı bereketli kıl, zihnimi açık ve muhakememi sağlam eyle. Attilla Ergüzen hocamızın verdiği ilmi hakkıyla kavrayıp adil bir şekilde değerlendirilmemi sağla. Hakkımla bu dersi geçmeyi ve hayırlı bir başarı elde etmeyi bana lütfet.Amin.
+    #region Euzu billahi mineşşeytanirracim ve Bismillahirrahmanirrahim
+    /* Allah’ım, veri yapıları dersinde ilmi doğru anlamayı ve emeğimin karşılığını almayı nasip eyle. Çalışmamı bereketli kıl, zihnimi açık ve muhakememi sağlam eyle. Attilla Ergüzen hocamızın verdiği ilmi hakkıyla kavrayıp adil bir şekilde değerlendirilmemi sağla. Hakkımla bu dersi geçmeyi ve hayırlı bir başarı elde etmeyi bana lütfet.Amin.
      */
+    #endregion
     #region DERSE DAIR NOTLAR
-    /*
-     * Hazır fonksiyonlar kullanılmamalı.
+    /* Hazır fonksiyonlar kullanılmamalı.
      * Her veri yapısını manuel olarak oluşturmalı.
      * Her veri yapısının recursive alternatifi bilinmeli.
      * Hocanızın en belirgin özelliği, C#'ın sunduğu hazır kütüphaneleri ve yöntemleri kullanmak yerine, her şeyi "sıfırdan" (manual) ve bellek adresleme mantığıyla yaptırmasıdır.
@@ -23,7 +22,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
     • Veri Yapılarını Manuel İnşa Etme: Stack, Queue ve Linked List gibi yapıları C#'ın kendi sınıflarıyla değil, kendi oluşturduğu Block veya MyBlock gibi sınıflarla kurar
 .
      */
-    #endregion 
+    #endregion
     internal class Program
     {
         static int[] mainArr = new int[10];
@@ -48,6 +47,9 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 
         static Block frontll = null;
         static Block rearll = null;
+
+        static int[] mainIntHashTable = new int[100];
+        static string[] mainStringHashTable = new string[100];
         static void bosluk() {Console.WriteLine();}
         #region HAFTA 3 - MEMORY LAYOUT - ARRAYS
         static void ders3()
@@ -2326,6 +2328,70 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
              * binary search -> sort edilmiş verilerde kullanılır ortadaki elemanla karşılaştırılır -> O(log n)
              * b+ tree search -> veritabanlarında kullanılır - O(log n)
              */
+
+        }
+        #endregion
+        #region HAFTA 13 - TREES
+        static void H13()
+        {
+            /*
+             * binary tree -> her düğümün en fazla iki çocuğu olabilir
+             * binary search tree -> sol alt ağaçtaki tüm düğümler, kök düğümden küçük, sağ alt ağaçtaki tüm düğümler kök düğümden büyük olmalıdır
+             * AVL tree -> her düğüm için sol ve sağ alt ağaçların yükseklik farkı en fazla 1 olmalıdır
+             * red-black tree -> her düğüm kırmızı veya siyah renkte olabilir, kök düğüm siyah olmalıdır, kırmızı düğümün çocukları siyah olmalıdır, her yapraktan köke giden tüm yollar aynı sayıda siyah düğüm içermelidir
+             */
+        }
+        #endregion
+        #region HAFTA 14 - HASHING
+        static void H14()
+        {
+            #region hashing n0tlar
+            /*
+             * hashing -> verileri hızlı bir şekilde erişmek için kullanılan bir tekniktir.Şimdiye kadar gördüğümüz veri yapılarından farklı olarak sadece dizilerle implemente edilebilir. Yani linked list ile kullanımı yoktur.
+             * bir veri depolama çeşidi olan dictionary yapısına benzer. -key ve -value. yani bir anahtar ve o anahtara karşılık gelen bir değer vardır.
+             * hash function -> veriyi alır ve bir hash kodu üretir. genel olarak amacımız veriyi mümkün olduğunca eşit-dengeli- dağıtmaktır.
+             * collision -> iki farklı veri aynı hash kodunu ürettiğinde oluşur
+             * open addressing -> çarpışma durumunda boş bir yer bulunana kadar lineer olarak arama yapılır
+             * chaining -> her hash tablosu girişinde bir bağlı liste kullanılır, çarpışma durumunda yeni veri bu listeye eklenir
+            
+            int[] hash = new int[100];
+            hash[55] = 10; 
+
+            key = 55 , value = 10
+
+             Index : Value
+            ----------------
+              0   : 0
+              1   : 0
+              2   : 0
+              .
+              .
+             54   : 0
+             55   : 10   <-- key = 55, value = 10
+             56   : 0
+              .
+              .
+             99   : 0
+
+             */
+            #endregion
+
+            //static int[] mainHashTable = new int[10]; (yukarda tanımlı)
+            static int hashFunction(int key) 
+            {
+                return key % mainIntHashTable.Length;
+            }
+            string öğrAdı = "Atilla";
+
+
+            static void hashYaz(int data)
+            {
+                int indis = hashFunction(data);
+                if (mainIntHashTable[indis] == data)
+                {
+                    mainIntHashTable[indis] = data;
+                }
+            }
 
         }
         #endregion
