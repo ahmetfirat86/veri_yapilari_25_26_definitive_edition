@@ -6,6 +6,10 @@ using System.Threading.Channels;
 
 namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 {
+    /*
+     * Euzu billahi mineşşeytanirracim ve Bismillahirrahmanirrahim.
+     * Allah’ım, veri yapıları dersinde ilmi doğru anlamayı ve emeğimin karşılığını almayı nasip eyle. Çalışmamı bereketli kıl, zihnimi açık ve muhakememi sağlam eyle. Attilla Ergüzen hocamızın verdiği ilmi hakkıyla kavrayıp adil bir şekilde değerlendirilmemi sağla. Hakkımla bu dersi geçmeyi ve hayırlı bir başarı elde etmeyi bana lütfet.Amin.
+     */
     #region DERSE DAIR NOTLAR
     /*
      * Hazır fonksiyonlar kullanılmamalı.
@@ -2266,7 +2270,6 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 return mainQueue[front];
             }
             #endregion
-
             #region - QUEUES LINKED LIST BASED METOTLARI -
             
             static void enqueue_ll(int data)
@@ -2296,12 +2299,33 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 frontll = frontll.next;
                 return returnData;
             }
-                #endregion
+            static int count_ll()
+            {
+                Block temp = frontll;
+                int count = 0;
+                while (temp != null)
+                {
+                    count++;
+                    temp = temp.next;
+                }
+                return count;
             }
+            static int count_ll_recursive(Block head)// queue linked list eleman sayısı recursive!
+            {
+                if (head == null) return 0;
+                return 1 + count_ll_recursive(head.next);
+            }
+            #endregion
+        }
         #endregion
-        #region HAFTA 12 - QUEUES and CIRCULAR LINKED LISTS EXAMPLES
+        #region HAFTA 12 - SEARCHING and TREES 
         static void H12()
         {
+            /*
+             * linear search -> sort edilmiş verilerde kullanılır baştan sona tek tek karşılaştırılır - O(n)
+             * binary search -> sort edilmiş verilerde kullanılır ortadaki elemanla karşılaştırılır -> O(log n)
+             * b+ tree search -> veritabanlarında kullanılır - O(log n)
+             */
 
         }
         #endregion
