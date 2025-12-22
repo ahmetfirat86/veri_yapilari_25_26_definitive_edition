@@ -50,6 +50,9 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 
         static int[] mainIntHashTable = new int[100];
         static string[] mainStringHashTable = new string[100];
+
+        static int[] binary_tree = new int[100];
+
         static void bosluk() {Console.WriteLine();}
         #region HAFTA 3 - MEMORY LAYOUT - ARRAYS
         static void ders3()
@@ -2395,12 +2398,106 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 
         }
         #endregion
+        #region HAFTA 15 - TREES
+        static void h15()
+        {
+            #region sınavla alakalı n0tlar
+            //binary tree sorusu test dengeli dengesiz bak 
+            //linked list tarafı çıkmayacak
+            #endregion
+            #region trees n0tes
+            /*
+             * doğrusal olmayan hiyerarşik bir düzende saklandığı veri yapısıdır
+             * root-kök- level-seviye/katman- leaf-yaprak- parent/child-anne/cocuk- yapısındadır.
+                 
+                1-)Sıkıştırma algoritmalarında
+                2-)Sıralama algoritmalarında
+                3-)Search algoritmalarında
+                4-)Veritabanı sistemlerinde vb. sistemlerde kullanılır.
+             
+             
+                    A   -> root level
+                   / \
+                  B   C   -> 1.level
+                 / \   \
+                D   E   F   -> 2.level
+
+                A
+                ├─ B
+                │  ├─ D
+                │  └─ E
+                └─ C
+                   └─ F
+                
+                diziler veya linked listler ile gerçekleştirebiliriz.
+
+             */
+            #endregion
+            #region - TREES ARRAY BASED METOTLARI -
+            /*
+            Diziler ile: Matematiksel bir formül üzerinden yönetilir.
+            Bir düğümün indisi n ise, 
+            sol çocuğu -> 2n+1, 
+            sağ çocuğu -> 2n+2 
+            indisinde bulunur.
+            */
+            /*
+                           (15)
+                          /   \
+                         /     \
+                      (11)     (26)
+                     /   \     /   \
+                    /     \   /     \
+                   (8)  (12) (20)  (30)
+                  /  \   \           \
+                 /    \   \           \
+                (6)  (9)  (14)        (35)   
+
+            Index :  0   1   2   3   4   5   6   7   8   9   10  11  12  13  14
+            Data  : 15  11  26   8  12  20  30   6   9   -   14   -   -   -   35
+
+            static int[] binary_tree = new int[100]; yukarıda tanımlı
+
+            */
+            binary_tree[0] = 15;
+            binary_tree[1] = 11;
+            binary_tree[2] = 26;
+            binary_tree[3] = 8;
+            binary_tree[4] = 12;
+            binary_tree[5] = 20;
+            binary_tree[6] = 30;
+            binary_tree[7] = 6;
+            binary_tree[8] = 9;
+            binary_tree[9] = 0;
+            binary_tree[10] = 14;
+            binary_tree[11] = 0;
+            binary_tree[12] = 0;
+            binary_tree[13] = 0;
+            binary_tree[14] = 35;
+            static void bt_yaz(int[] binary_tree, int indis)
+            {
+                if (indis >= binary_tree.Length) return;
+                if (binary_tree[indis] != 0) Console.WriteLine(binary_tree[indis]);
+                bt_yaz(binary_tree, indis * 2 + 1);
+                //treenin sol tarafındaki elemanları bastırmamıza yarar
+                bt_yaz(binary_tree, indis * 2 + 2);
+                //treenin sağ tarafındaki elemanları bastırmamıza yarar
+            }
+            bt_yaz(binary_tree, 0);
+
+            #endregion
+            #region - TREES LINKED LIST BASED METOTLARI -
+            //çıkmayacak yok dendi
+            #endregion
+        }
+        #endregion
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
             HAFTA8_2();
             H10();
             H11();
+            h15();
         }
     }
 }
