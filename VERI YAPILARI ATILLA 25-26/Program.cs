@@ -2404,6 +2404,8 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             #region sınavla alakalı n0tlar
             //binary tree sorusu test dengeli dengesiz bak 
             //linked list tarafı çıkmayacak
+            //örnek bt sorusu 35 childden parentlerini yaza yaza roota çıkan
+            //bt btsearch farkı
             #endregion
             #region trees n0tes
             /*
@@ -2440,6 +2442,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             sol çocuğu -> 2n+1, 
             sağ çocuğu -> 2n+2 
             indisinde bulunur.
+            -1 yerine sınavda genellikle NULL / ∅ varsayımı yapılır.
             */
             /*
                            (15)
@@ -2455,35 +2458,89 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 
             Index :  0   1   2   3   4   5   6   7   8   9   10  11  12  13  14
             Data  : 15  11  26   8  12  20  30   6   9   -   14   -   -   -   35
+            
+            örn: 14ü aratmak -> ziyaret sırası: 15-11-12-14
+            index 0 -> 14<15 git sol ( 2 * 0 + 1 = [1] )
+            index 1 -> 14>11 git sağ ( 2 * 1 + 2 = [4] )
+            index 4 -> 14>12 git sağ ( 2 * 4 + 2 = [10] )
+            index 10 -> 14=14 BULUNDU
 
             static int[] binary_tree = new int[100]; yukarıda tanımlı
 
+
             */
-            binary_tree[0] = 15;
-            binary_tree[1] = 11;
-            binary_tree[2] = 26;
-            binary_tree[3] = 8;
-            binary_tree[4] = 12;
-            binary_tree[5] = 20;
-            binary_tree[6] = 30;
-            binary_tree[7] = 6;
-            binary_tree[8] = 9;
-            binary_tree[9] = 0;
-            binary_tree[10] = 14;
-            binary_tree[11] = 0;
-            binary_tree[12] = 0;
-            binary_tree[13] = 0;
-            binary_tree[14] = 35;
-            static void bt_yaz(int[] binary_tree, int indis)
+            binary_tree[0]=15; binary_tree[1]=11; binary_tree[2]=26; binary_tree[3]=8; binary_tree[4]=12; binary_tree[5]=20; binary_tree[6]=30; binary_tree[7]=6; binary_tree[8]=9; binary_tree[9]=-1; binary_tree[10]=14; binary_tree[11]=-1; binary_tree[12]=-1; binary_tree[13]=-1; binary_tree[14]=35; 
+
+            static void BinaryTreeYaz(int[] binary_tree, int indis)
             {
                 if (indis >= binary_tree.Length) return;
                 if (binary_tree[indis] != 0) Console.WriteLine(binary_tree[indis]);
-                bt_yaz(binary_tree, indis * 2 + 1);
+                BinaryTreeYaz(binary_tree, indis * 2 + 1);
                 //treenin sol tarafındaki elemanları bastırmamıza yarar
-                bt_yaz(binary_tree, indis * 2 + 2);
+                BinaryTreeYaz(binary_tree, indis * 2 + 2);
                 //treenin sağ tarafındaki elemanları bastırmamıza yarar
             }
-            bt_yaz(binary_tree, 0);
+            BinaryTreeYaz(binary_tree, 0);
+
+            static void PreOrder(int[] binary_tree, int indis)
+            {
+                if (indis >= binary_tree.Length || binary_tree[indis] == -1)
+                    return;
+                Console.Write(binary_tree[indis] + " ");      // Root
+                PreOrder(binary_tree, 2 * indis + 1);          // Left
+                PreOrder(binary_tree, 2 * indis + 2);          // Right
+            }
+            static void PostOrder(int[] binary_tree , int indis)
+            {
+                if (indis >= binary_tree.Length || binary_tree[indis] == -1)
+                    return;
+                PostOrder(binary_tree , indis * 2 + 1); // Left
+                PostOrder(binary_tree,indis * 2 + 2); // Right
+                Console.WriteLine(binary_tree+" "); // Root
+            }
+            static void LevelOrder(int[] binart_tree) // level-order zaten dizinin kendisidir
+            {
+                for(int i = 0; i < binart_tree.Length; i++)
+                {
+                    if(binary_tree[i]!=-1)
+                        Console.WriteLine(binary_tree[i] + " ");
+                }
+            }
+            static int TreeCount(int[] binart_tree,int indis)
+            {
+                if (indis >= binary_tree.Length)
+                    return 0;
+                return 
+                    1 
+                    + TreeCount(binart_tree, indis * 2 + 1)
+                    + TreeCount(binart_tree,indis * 2 + 2);
+            }
+            static int BinarySearchTree(int[] binary_tree , int indis,int searching_value) //binary search tree
+            {
+                if (indis >= binary_tree.Length)
+                    return 0;
+                if (binary_tree[indis] == searching_value)
+                    return 1;
+                if (binary_tree[indis] > searching_value)
+                    return BinarySearchTree(binary_tree,indis * 2 + 1 ,searching_value);
+                else 
+                    return BinarySearchTree(binary_tree,indis * 2 + 2 ,searching_value);
+            }
+            static int BinarySearchTree(int[] binary_tree, int indis, int searching_value) //binary search tree
+            {
+                if (indis >= binary_tree.Length)
+                    return 0;
+                if (binary_tree[indis] == searching_value)
+                    return 1;
+                if (binary_tree[indis] > searching_value)
+                    return BinarySearchTree(binary_tree, indis * 2 + 1, searching_value);
+                else
+                    return BinarySearchTree(binary_tree, indis * 2 + 2, searching_value);
+            }
+
+
+
+
 
             #endregion
             #region - TREES LINKED LIST BASED METOTLARI -
