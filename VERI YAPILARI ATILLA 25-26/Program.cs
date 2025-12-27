@@ -1,10 +1,4 @@
-﻿using System;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Security.Claims;
-using System.Threading.Channels;
-
-namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
+﻿namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 {
     #region Euzu billahi mineşşeytanirracim ve Bismillahirrahmanirrahim
     /* Allah’ım, veri yapıları dersinde ilmi doğru anlamayı ve emeğimin karşılığını almayı nasip eyle. Çalışmamı bereketli kıl, zihnimi açık ve muhakememi sağlam eyle. Attilla Ergüzen hocamızın verdiği ilmi hakkıyla kavrayıp adil bir şekilde değerlendirilmemi sağla. Hakkımla bu dersi geçmeyi ve hayırlı bir başarı elde etmeyi bana lütfet.Amin.
@@ -52,7 +46,6 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         static string[] mainStringHashTable = new string[100];
 
         static int[] binary_tree = new int[100];
-
         static void bosluk() {Console.WriteLine();}
         #region HAFTA 3 - MEMORY LAYOUT - ARRAYS
         static void ders3()
@@ -1807,7 +1800,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             }
         }
         #endregion
-        #region VİZE ÖRNEKLERİ
+        #region -VİZE ÖRNEKLERİ-
         static void VİZE_ÖRNEKLER_ÇIKMIŞLAR()
         {
             static void orn1()
@@ -2346,7 +2339,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
         }
         #endregion
         #region HAFTA 14 - HASHING
-        static void H14()
+        static void h14()
         {
             #region hashing n0tlar
             /*
@@ -2378,24 +2371,37 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 
              */
             #endregion
+            //static int[] mainHashTable = new int[100]; (yukarda tanımlı)
+            //statinc string[] mainStringHashTable = new string[100]; (yukarda tanımlı)
 
-            //static int[] mainHashTable = new int[10]; (yukarda tanımlı)
-            static int hashFunction(int key) 
+            //bu hocanın derste yazdığı hashing
+            string stringValue = "ABC";
+            static int hashKeyFunction(string value) //string st = 'ABC' olsun
             {
-                return key % mainIntHashTable.Length;
-            }
-            string öğrAdı = "Atilla";
-
-
-            static void hashYaz(int data)
-            {
-                int indis = hashFunction(data);
-                if (mainIntHashTable[indis] == data)
+                int toplam = 0;
+                for (int i = 0; i < value.Length; i++) // A-> 65x1 B->66x2 C->67x3 
                 {
-                    mainIntHashTable[indis] = data;
+                    toplam = toplam + (i + 1) * (byte)value[i]; // toplam = 398
                 }
+                toplam = toplam % 100; // 398 % 10 = 98
+                
+                return toplam;
             }
+            int key_1 = hashKeyFunction(stringValue);
+            mainStringHashTable[key_1] = stringValue; // mainStringHashTable[98] = 'ABC' oldu
 
+            Console.WriteLine("{0}'nin hash functiondan çıkan key karşılığı = {1}'dir. yani hash[{1}]={0} ", stringValue, key_1);
+
+            //moduler keying
+            int intValue = 7355608;
+            static int hashKeying(int[] hash,int value)
+            {
+                return value % hash.Length;// hash tablosu uzunluguna göre modu 7355608%100=8
+            }
+            int key_2 = hashKeying(mainIntHashTable, intValue);
+            mainIntHashTable[key_2] = intValue;
+
+            Console.WriteLine("{0}'nin hash functiondan çıkan key karşılığı = {1}'dir. yani hash[{1}]={0} ", intValue, key_2);
         }
         #endregion
         #region HAFTA 15 - TREES
@@ -2526,7 +2532,7 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
                 else 
                     return BinarySearchTree(binary_tree,indis * 2 + 2 ,searching_value);
             }
-            static int BinarySearchTree(int[] binary_tree, int indis, int searching_value) //binary search tree
+            static int BinarySearchTreee(int[] binary_tree, int indis, int searching_value) //binary search tree
             {
                 if (indis >= binary_tree.Length)
                     return 0;
@@ -2548,13 +2554,21 @@ namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
             #endregion
         }
         #endregion
+        #region HAFTA 16 - BINARY TREE
+        static void h16()
+        {
+
+        }
+        #endregion
+        #region -FİNAL ÖRNEKLERİ-
+        #endregion
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
             HAFTA8_2();
             H10();
             H11();
-            h15();
+            h14();
         }
     }
 }
