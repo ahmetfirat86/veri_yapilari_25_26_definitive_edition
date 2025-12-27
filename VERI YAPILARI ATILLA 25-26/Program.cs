@@ -2339,7 +2339,7 @@
         }
         #endregion
         #region HAFTA 14 - HASHING
-        static void h14()
+        static void h14() // key-value
         {
             #region hashing n0tlar
             /*
@@ -2374,8 +2374,9 @@
             //static int[] mainHashTable = new int[100]; (yukarda tanımlı)
             //statinc string[] mainStringHashTable = new string[100]; (yukarda tanımlı)
 
-            //bu hocanın derste yazdığı hashing
+            //hocanın derste yazdığı hashing -----------------------------
             string stringValue = "ABC";
+            //  [ hash = Σ (i + 1) * ASCII(character_i) % 100 ]
             static int hashKeyFunction(string value) //string st = 'ABC' olsun
             {
                 int toplam = 0;
@@ -2392,8 +2393,9 @@
 
             Console.WriteLine("{0}'nin hash functiondan çıkan key karşılığı = {1}'dir. yani hash[{1}]={0} ", stringValue, key_1);
 
-            //moduler keying
+            //moduler keying -----------------------------
             int intValue = 7355608;
+            //  [ index = hash(key) % tableSize ]
             static int hashKeying(int[] hash,int value)
             {
                 return value % hash.Length;// hash tablosu uzunluguna göre modu 7355608%100=8
@@ -2402,6 +2404,119 @@
             mainIntHashTable[key_2] = intValue;
 
             Console.WriteLine("{0}'nin hash functiondan çıkan key karşılığı = {1}'dir. yani hash[{1}]={0} ", intValue, key_2);
+        }
+        static void h14_1()// COLLISION
+        {
+            #region collision n0tlar
+            /*
+            Collision, farklı anahtarların aynı hash değerini üretmesidir. 
+
+            [00] :
+            [01] :
+            [02] :
+            [03] :
+            [04] :
+            [05] :
+            [06] :
+            [07] :
+            [08] : 7355608 ← ilk gelen
+            [09] :
+            [10] :
+            ...
+            [99] :
+
+            1234508 eklenmek isteniyor. 1234508 % 100 = 8 fakat [08] dolu COLLISION
+            9808 eklenmek isteniyor. 9808 % 100 = 8 fakat [08] dolu COLLISION
+
+            colisionu önlemek için kullanılan yöntemlere probing denir.boş yer arama stratejisidir.
+            -linear probing -> index = (hash(key) + 1) % tableSize
+            -quadratic probing -> index = (hash(key) + i^2) % tableSize
+            -double hashing -> index = (hash1(key) + i * hash2(key)) % tableSize
+             */
+            #endregion
+            // index = (hash(key) + 1) % tableSize --------------------------------
+            int intValue = 7355602;
+            static void hashLinearProbing(int[] hash, int value) //LINEAR PROBING
+            {
+                int key = value % hash.Length;
+                int index = key;
+                int startIndex = index;
+                while (hash[key] != 0)// boş slot bulunana kadar devam et
+                {
+                    index = (index+1)%hash.Length;// index = (index+1)%hash.size , index = (index+1)%100
+                    if (index == startIndex)
+                    {
+                        Console.WriteLine("* hashLinearProbing fonksiyonunda {0} value.  Hash tablosu dolu , eklenemedi!", value);
+                        return;
+                    }
+                }
+                hash[index] = value;
+            }
+            //deneme ve yazdırma işlemleri
+            hashLinearProbing(mainIntHashTable, intValue);
+            hashLinearProbing(mainIntHashTable, intValue + 100);
+            hashLinearProbing(mainIntHashTable, intValue + 1);
+            hashLinearProbing(mainIntHashTable, intValue + 2);
+            hashLinearProbing(mainIntHashTable, intValue + 3);
+            hashLinearProbing(mainIntHashTable, intValue + 4);
+            hashLinearProbing(mainIntHashTable, intValue + 104);
+
+            for (int i = 0; i < mainIntHashTable.Length; i++)
+            {
+                Console.Write(mainIntHashTable[i] + "-");
+            }
+            Console.WriteLine("\n");
+
+            //hocanın HASH --------------------------------
+            string stringValue = "ABC";
+            static int hashKeyFunction(string value) //string st = 'ABC' olsun
+            {
+                int toplam = 0;
+                for (int i = 0; i < value.Length; i++) // A-> 65x1 B->66x2 C->67x3 
+                {
+                    toplam = toplam + (i + 1) * (byte)value[i]; // toplam = 398
+                }
+                toplam = toplam % 100; // 398 % 10 = 98
+
+                return toplam;
+            }
+            //hash = Σ (i + 1) * ASCII(character_i) % 100 
+            static void hashStringLinearProbing(string[] hash,string value)
+            {
+                int tableSize = hash.Length;
+                int key = hashKeyFunction(value);
+
+                if (hash[key] == null) // eğer başlangıç boşsa ekle
+                {
+                    hash[key] = value;
+                    return;
+                }
+                for(int i = 0;i < tableSize; i++)
+                {
+                    int newIndex = (key + i) % tableSize; // döngüsel kontrol
+
+                    if (hash[newIndex] == null)
+                    {
+                        hash[newIndex] = value;
+                        return;
+                    }
+                }
+            }
+            //deneme ve yazdırma işlemleri
+            for (int i = 0; i < mainStringHashTable.Length; i++)
+            {
+                Console.Write(mainStringHashTable[i] + "-");
+            }
+            Console.WriteLine("\n");
+            hashStringLinearProbing(mainStringHashTable, "ABC");
+            hashStringLinearProbing(mainStringHashTable, "stringValue");
+            hashStringLinearProbing(mainStringHashTable, "BAA");
+            hashStringLinearProbing(mainStringHashTable, "FIRO");
+            for (int i = 0; i < mainStringHashTable.Length; i++)
+            {
+                Console.Write(mainStringHashTable[i] + "-");
+            }
+            Console.WriteLine("\n");
         }
         #endregion
         #region HAFTA 15 - TREES
@@ -2568,7 +2683,6 @@
             HAFTA8_2();
             H10();
             H11();
-            h14();
         }
     }
 }
