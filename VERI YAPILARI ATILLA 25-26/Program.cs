@@ -2519,14 +2519,17 @@
             Console.WriteLine("\n");
         }
         #endregion
-        #region HAFTA 15 - TREES
+        #region HAFTA 15 - TREES and BINARY TREE
         static void h15()
         {
             #region sınavla alakalı n0tlar
             //binary tree sorusu test dengeli dengesiz bak 
+            //b+ tree çıkmayacak
             //linked list tarafı çıkmayacak
             //örnek bt sorusu 35 childden parentlerini yaza yaza roota çıkan
             //bt btsearch farkı
+            //test sorusu da var dengeli agaclarda 
+            //3.dersteki örneğe benzer klasik soru var 
             #endregion
             #region trees n0tes
             /*
@@ -2566,6 +2569,8 @@
             -1 yerine sınavda genellikle NULL / ∅ varsayımı yapılır.
             */
             /*
+                    binary tree max child is 2 (0 1 veya 2 çocuk) 
+
                            (15)
                           /   \
                          /     \
@@ -2659,20 +2664,10 @@
                     return BinarySearchTree(binary_tree, indis * 2 + 2, searching_value);
             }
 
-
-
-
-
             #endregion
             #region - TREES LINKED LIST BASED METOTLARI -
             //çıkmayacak yok dendi
             #endregion
-        }
-        #endregion
-        #region HAFTA 16 - BINARY TREE
-        static void h16()
-        {
-
         }
         #endregion
         #region -FİNAL ÖRNEKLERİ-
