@@ -2648,7 +2648,7 @@
                 if (binary_tree[indis] == searching_value)
                     return 1;
                 if (binary_tree[indis] > searching_value)
-                    return BinarySearchTree(binary_tree,indis * 2 + 1 ,searching_value);
+                    return BinarySearchTree(binary_tree,indis * 2 + 1 ,searching_value); 
                 else 
                     return BinarySearchTree(binary_tree,indis * 2 + 2 ,searching_value);
             }
