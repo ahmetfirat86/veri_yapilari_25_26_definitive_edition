@@ -2569,7 +2569,7 @@
             -1 yerine sınavda genellikle NULL / ∅ varsayımı yapılır.
             */
             /*
-                    binary tree max child is 2 (0 1 veya 2 çocuk) 
+                   binary tree max child is 2 (0 1 veya 2 çocuk) 
 
                            (15)
                           /   \
@@ -2586,9 +2586,9 @@
             Data  : 15  11  26   8  12  20  30   6   9   -   14   -   -   -   35
             
             örn: 14ü aratmak -> ziyaret sırası: 15-11-12-14
-            index 0 -> 14<15 git sol ( 2 * 0 + 1 = [1] )
-            index 1 -> 14>11 git sağ ( 2 * 1 + 2 = [4] )
-            index 4 -> 14>12 git sağ ( 2 * 4 + 2 = [10] )
+            index 0 -> 14<15 git sol ( 2 * 0 + 1 = [1] ) tree[1]=11
+            index 1 -> 14>11 git sağ ( 2 * 1 + 2 = [4] ) tree[4]=12
+            index 4 -> 14>12 git sağ ( 2 * 4 + 2 = [10] ) tree[10]=14
             index 10 -> 14=14 BULUNDU
 
             static int[] binary_tree = new int[100]; yukarıda tanımlı
