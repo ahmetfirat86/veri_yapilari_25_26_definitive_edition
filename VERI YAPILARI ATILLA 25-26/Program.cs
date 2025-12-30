@@ -2530,6 +2530,9 @@
             //bt btsearch farkı
             //test sorusu da var dengeli agaclarda 
             //3.dersteki örneğe benzer klasik soru var 
+            //indis değeri 5 olanın sol çocuk kaçtır
+            //indis değeri 7 nin parenti kaç
+            // indis değeribverilen nodeun parentlerini yaza yaza köke kadar
             #endregion
             #region trees n0tes
             /*
