@@ -2706,7 +2706,7 @@
             }
             else
             {
-                return bst_recursive(btree, indis * 2 + 1, aranan);
+                return bst_recursive(btree, indis * 2 + 2, aranan);
             }
         }
         static int Ara(int[] btree, int indis, int aranan)// bst search hocanın çözümü
@@ -2734,7 +2734,108 @@
             if (btree[indis] == aranan) memW++;
             return find(btree, indis * 2 + 1, aranan) + find(btree, indis + 2 + 2, aranan);
         }
+        static int leafSayisi(int[]btree,int indis)//recursive leaf sayma fonksiyonu. “Eğer burada düğüm yoksa 0 döndür. Eğer düğüm var ama çocuğu yoksa 1 döndür. Aksi halde sol ve sağdan gelen sonuçları topla.”
+        {
+            if (indis >= btree.Length || btree[indis]==0)
+                return 0;
+            bool solYok = indis * 2 + 1 >= btree.Length || btree[indis*2+1] == 0;
+            bool sağYok = indis * 2 + 1 >= btree.Length || btree[indis*2+2] == 0;
 
+            if (solYok  && sağYok)
+                return 1;
+
+            return
+                leafSayisi(btree, indis*2+1)
+               +leafSayisi(btree,indis*2+2);
+        }
+        static int nodeSayi(int[] btree,int indis)// node sayısı recursive
+        {
+            if(indis>=btree.Length || btree[indis] == 0) return 0;
+            return 1
+                + nodeSayi(btree, indis * 2 + 1)
+                + nodeSayi(btree, indis * 2 + 2);
+        }
+        static int nodeSayisi(int[] btree,int indis)//recursive internal node sayısı. en az bir çocugu olması gerek
+        {
+            if(indis >= btree.Length || btree[indis]==0)
+                return 0;
+            bool solVar = indis*2+1 <= btree.Length && btree[indis*2+1] != 0;
+            bool sağVar = indis*2+2 <= btree.Length && btree[indis*2+2] != 0;
+
+            int memx; //int memx = (solVar || sagVar) ? 1 : 0;
+            if (sağVar || solVar)
+                memx = 1;
+            else
+                memx = 0;
+
+            return memx 
+                +leafSayisi(btree, indis * 2 + 1)
+                +leafSayisi(btree, indis * 2 + 2);
+        }
+        static int treeheight(int[] btree,int indis,int derinlik)// ağacın yüksekliğini bulan rekööörsiiif koddd derinik = -1 den başlar !
+        {
+            if (indis >= btree.Length || btree[indis] == 0) return derinlik;
+
+            int sol = treeheight(btree, indis * 2 + 1, derinlik + 1);
+            int sağ = treeheight(btree, indis * 2 + 2, derinlik + 1);
+
+            if (sol > sağ) return sol;
+            else return sağ;
+        }
+        static int tekCocukNodeSay(int[] btree, int indis)//Tek Çocuklu Düğüm Sayısı
+        {
+            if (indis >= btree.Length || btree[indis] == 0)
+                return 0;
+            bool solVar = indis * 2 + 1 < btree.Length && btree[indis * 2 + 1] != 0;
+            bool sağVar = indis * 2 + 2 < btree.Length && btree[indis * 2 + 2] != 0;
+
+            int memx = (solVar ^ sağVar) ? 1 : 0; //xor gate ya sol var ya sağ var 
+
+            return memx
+                + tekCocukNodeSay(btree, indis * 2 + 1)
+                + tekCocukNodeSay(btree, indis * 2 + 2);
+        }
+        static int tekCocukNodeSayAlternatif(int[] btree, int indis)//Tek Çocuklu Düğüm Sayısı alternatif
+        {
+            if (indis >= btree.Length || btree[indis] == 0)
+                return 0;
+            int sol = indis * 2 + 1;
+            int sağ = indis * 2 + 2;
+            bool solVar = sol < btree.Length && btree[sol] != 0;
+            bool sağVar = sağ < btree.Length && btree[sağ] != 0;
+            int memx;
+            if (solVar && !sağVar) memx = 1;
+            else if(!solVar && sağVar) memx = 1;
+            else memx = 0;
+
+            return memx
+                + tekCocukNodeSayAlternatif(btree,sol)
+                + tekCocukNodeSayAlternatif(btree,sağ);
+        }
+        static int aralikSayisi(int[] btree, int indis,int min,int max)// [min, max] aralıgındaki sayıların adedi
+        {
+            if (indis >= btree.Length || btree[indis] == 0)
+                return 0;
+            if(btree[indis] <min)
+                return aralikSayisi(btree,indis*2+1,min,max);   
+            if(btree[indis] >max)
+                return aralikSayisi(btree,indis*2+2,max,min);
+            return 1
+                + aralikSayisi(btree, indis * 2 + 1,min,max)
+                + aralikSayisi(btree, indis * 2 + 2, min, max);
+        }
+        static int levelNodeSayisi(int[] btree, int indis, int seviye, int hedefSeviye)
+        {
+            // Dizi sınırı dışı ya da boş düğüm
+            if (indis >= btree.Length || btree[indis] == 0)
+                return 0;
+
+            if (seviye == hedefSeviye)
+                return 1;
+
+            return levelNodeSayisi(btree, indis * 2 + 1, seviye + 1, hedefSeviye)
+                 + levelNodeSayisi(btree, indis * 2 + 2, seviye + 1, hedefSeviye);
+        }
         static void finn()//1-)Önceden oluşturulmuş 2 adet çiftli linked list yapısında data olarak integer kullanılmaktadır.Bu listelerin ilk elemanları head ve first'tür.Bu iki bağlı listede ortak sayılar mevcuttur.Ortak sayılar her iki listede de birden fazla olabilir.Sayının ortak olması için   diğer her iki listede de olması şarttır.Aynı listede birden fazla olup diğer listede olmazsa ortak sayılmayacaktır. Bu listelerde ortak olarak 2 defa bulunan sayıların adedini bulunuz.(2021 Final)
         {
             Block head = null;
@@ -2796,17 +2897,142 @@
         }
         static void finna()//2-)1000 elemanlı int tipindeki bir dizi, dizi ile oluşturulan bir binary tree'nin verilerini tutmaktadır. Bu dizinin tüm elemanlarını while kullanarak ekrana yazdırınız.(2021 Final)
         {
-
+            // static Block spll = null;
+            // static int[] binary_tree = new int[100];
+            static void push(int data)
+            {
+                Block newBl = new Block();
+                newBl.data = data;
+                if (spll == null)
+                {
+                    spll = newBl;
+                    return;
+                }
+                newBl.next = spll;
+                spll.prev = newBl;
+                spll = newBl;
+            }
+            static int pop()
+            {
+                int temp = spll.data;
+                spll = spll.next;
+                return temp;
+            }
+            push(0);
+            while (spll != null)
+            {
+                int indis = pop();
+                Console.WriteLine(binary_tree[indis]);
+                indis = indis * 2 + 1;
+                if (indis <= binary_tree.Length)
+                {
+                    push(indis);
+                }
+                indis++; 
+                if(indis <= binary_tree.Length)
+                {
+                    push(indis);
+                }
+            }
         }
         static void finnnal()//3-)Data ve link 1000'er elemanlı int tipinde iki adet dizidir.Data dizisinde sayılar vardır.Link dizisinde data dizisinin indisleri mevcuttur.Bu sayede link dizisi ile data dizisi üzerinde bir bağlı liste yapısı oluşturulmuştur.Bağlı listenin ilk elemanı data dizisinin 70. elemanıdır.Bu listenin elemanlarını sırayla ekrana recursive olarak yazdırınız.70'ten sonra gelen eleman link[70] ile alınacak ve bu şekilde devam edecektir(2021 Final)          
         {
+            int[] data = new int[1000];
+            int[] link = new int[1000];
+            /*
+                İNDİS :   70     25     90     12
+                --------------------------------
+                data  :   10     40     7      99
+                link  :   25     90     12     -1
+            */
+            static void ListeYazdir(int[] data, int[] link, int indis)
+            {
+                if (indis == -1)   // listenin sonu
+                    return;
+
+                Console.WriteLine(data[indis]);
+                ListeYazdir(data, link, link[indis]);
+            }
+            static void ListeYazdirIteratif(int[] data, int[] link)//iteratif çözümü
+            {
+                int indis = 70;   // listenin ilk elemanı
+                while (indis != -1)
+                {
+                    Console.WriteLine(data[indis]);
+                    indis = link[indis];   // bir sonraki düğüme geç
+                }
+            }
 
         }
         static void finnnnal()//(2021 Final)
         {
-            //4-)ABACD/+/C*+Bd*- postfix ifadesini A=1 ; B = 12 ; C = 4 ; D = 2 için çözünüz. Stacktaki durumları detaylı gösteriniz(2021 Final)   
+            /*
+            4-)ABACD/+/C*+Bd*- postfix ifadesini A=1 ; B = 12 ; C = 4 ; D = 2 için çözünüz. Stacktaki durumları detaylı gösteriniz(2021 Final)   
+            Postfix ifade ABACD/+/C+Bd-** soldan sağa okunur ve değerlendirme sırasında bir stack kullanılır. Verilen değerler A=1, B=12, C=4, D=2’dir. Başlangıçta stack boştur.
 
-            /*5-)Linked list ile oluşturulmuş bir kuyruk için aşağıdakilerden hangisi yada hangileri doğrudur?(2020 Final)
+             İlk sembol A’dır. Operand olduğu için değeri stack’e atılır.
+             Stack: [1]
+
+             Sonraki sembol B’dir. Değeri 12’dir, stack’e push edilir.
+             Stack: [1, 12]
+
+             Sonraki sembol A’dır. Değeri 1’dir, stack’e push edilir.
+             Stack: [1, 12, 1]
+
+             Sonraki sembol C’dir. Değeri 4’tür, stack’e push edilir.
+             Stack: [1, 12, 1, 4]
+
+             Sonraki sembol D’dir. Değeri 2’dir, stack’e push edilir.
+             Stack: [1, 12, 1, 4, 2]
+
+             Sonraki sembol / operatörüdür. Stack’ten önce 2, sonra 4 pop edilir.
+             Hesap: 4 / 2 = 2
+             Sonuç stack’e push edilir.
+             Stack: [1, 12, 1, 2]
+
+             Sonraki sembol + operatörüdür. Stack’ten önce 2, sonra 1 pop edilir.
+             Hesap: 1 + 2 = 3
+             Sonuç stack’e push edilir.
+             Stack: [1, 12, 3]
+
+             Sonraki sembol / operatörüdür. Stack’ten önce 3, sonra 12 pop edilir.
+             Hesap: 12 / 3 = 4
+             Sonuç stack’e push edilir.
+             Stack: [1, 4]
+
+             Sonraki sembol C’dir. Değeri 4’tür, stack’e push edilir.
+             Stack: [1, 4, 4]
+
+             Sonraki sembol * operatörüdür. Stack’ten önce 4, sonra 4 pop edilir.
+             Hesap: 4 * 4 = 16
+             Sonuç stack’e push edilir.
+             Stack: [1, 16]
+
+             Sonraki sembol + operatörüdür. Stack’ten önce 16, sonra 1 pop edilir.
+             Hesap: 1 + 16 = 17
+             Sonuç stack’e push edilir.
+             Stack: [17]
+
+             Sonraki sembol B’dir. Değeri 12’dir, stack’e push edilir.
+             Stack: [17, 12]
+
+             Sonraki sembol d (D)’dir. Değeri 2’dir, stack’e push edilir.
+             Stack: [17, 12, 2]
+
+             Sonraki sembol * operatörüdür. Stack’ten önce 2, sonra 12 pop edilir.
+             Hesap: 12 * 2 = 24
+             Sonuç stack’e push edilir.
+             Stack: [17, 24]
+
+             Son sembol - operatörüdür. Stack’ten önce 24, sonra 17 pop edilir.
+             Hesap: 17 − 24 = -7
+             Sonuç stack’e push edilir.
+             Stack: [-7]
+
+             İfade tamamlandığında stack’te tek bir eleman kalmıştır. Bu değer postfix ifadenin sonucudur.
+             Sonuç: -7
+
+           5-)Linked list ile oluşturulmuş bir kuyruk için aşağıdakilerden hangisi yada hangileri doğrudur?(2020 Final)
             * i-Son gelen ilk çıkar yapısındadır.
             * ii-Eleman sayısını hesaplamak için while döngüsüne ihtiyaç vardır.
             * iii-Front kuyruktan eleman çıkışı için kullanılır.
