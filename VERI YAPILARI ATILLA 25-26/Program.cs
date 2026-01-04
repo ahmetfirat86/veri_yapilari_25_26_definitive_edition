@@ -2674,6 +2674,120 @@
         }
         #endregion
         #region -FİNAL ÖRNEKLERİ-
+        static int bst_iterative(int[] btree, int aranan)//Binary search tree array based 
+        {
+            int indis = 0; 
+            while (indis < btree.Length)
+            {
+                if (btree[indis] == aranan)
+                {
+                    return 1;
+                }
+
+                if (aranan < btree[indis])
+                    indis = indis * 2 + 1;//sol cocuğa bak
+                else
+                    indis = indis * 2 + 2;//sağ cocuğa bak
+
+                if (indis < btree.Length && btree[indis] == 0)
+                {
+                    break;
+                }
+            }
+            return 0; // Bulunamadı
+        }
+        static int bst_recursive(int[] btree , int indis , int aranan)
+        {
+            if (indis >= btree.Length) return 0;
+            if (btree[indis] == aranan) return 1;
+            if(aranan < btree[indis])
+            {
+                return bst_recursive(btree, indis * 2 + 1, aranan);
+            }
+            else
+            {
+                return bst_recursive(btree, indis * 2 + 1, aranan);
+            }
+        }
+        static int kac_kere_tekrar_eder_iteratif(int[] btree, int target)//Binary treede bir elemanın kaç kez tekrar ettiğini buldur.(hem normal hem recursive çöz)
+        {
+            int indis = 0;
+            int sayac = 0;
+            while(indis < btree.Length)
+            {
+                if (btree[indis] == target) sayac++;
+                if (target < btree[indis])
+                    indis = indis * 2 + 1;//sol cocuğa bak
+                else
+                    indis = indis * 2 + 2;//sağ cocuğa bak
+
+                if (indis < btree.Length && btree[indis] == 0)
+                {
+                    break;
+                }
+            }
+            return sayac;
+        }
+        static int kac_kere_tekrar_eder_rekursif(int[] btree, int i, int aranan)//Binary treede bir elemanın kaç kez tekrar ettiğini buldur.(hem normal hem recursive çöz)
+        {
+            if (i >= btree.Length || btree[i] == 0) return 0;
+
+            // Mevcut düğüm aranan değer ise 1, değilse 0 döner [11]
+            int say = (btree[i] == aranan) ? 1 : 0;
+
+            // Kendisi + Sol koldaki tekrarlar + Sağ koldaki tekrarlar [5], [12]
+            return say + kac_kere_tekrar_eder_rekursif(btree, i * 2 + 1, aranan)
+                       + kac_kere_tekrar_eder_rekursif(btree, i * 2 + 2, aranan);
+        }
+        static void final()//Bir ikili ağacın (binary tree), “ dizi tabanlı ağaç gösterimi” ile birebir aynı yapıya ve değerlere sahip olup olmadığını kontrol etmek.
+        {
+            static bool CompareArrayTree(int[] array, int index)
+            {
+                // Dizi sınırı aşılmışsa, bu dal bitmiştir (null node gibi)
+                if (index >= array.Length)
+                    return true;
+
+                int leftIndex = 2 * index + 1;
+                int rightIndex = 2 * index + 2;
+
+                // Sol çocuk varsa kontrol et
+                if (leftIndex < array.Length)
+                {
+                    // burada değer karşılaştırması yapılacak başka bir referans yok,
+                    // çünkü ağaç zaten dizinin kendisi
+                    if (!CompareArrayTree(array, leftIndex))
+                        return false;
+                }
+
+                // Sağ çocuk varsa kontrol et
+                if (rightIndex < array.Length)
+                {
+                    if (!CompareArrayTree(array, rightIndex))
+                        return false;
+                }
+
+                return true;
+            }
+
+            static bool CompareTwoArraysAsTrees(int[] a, int[] b, int index)
+            {
+                if (index >= a.Length && index >= b.Length)
+                    return true;
+
+                if (index >= a.Length || index >= b.Length)
+                    return false;
+
+                if (a[index] != b[index])
+                    return false;
+
+                return CompareTwoArraysAsTrees(a, b, 2 * index + 1)
+                    && CompareTwoArraysAsTrees(a, b, 2 * index + 2);
+            }
+
+
+        }
+
+
         #endregion
         static void Main(string[] args) // MAIN METHOD
         {
