@@ -2735,9 +2735,64 @@
             return find(btree, indis * 2 + 1, aranan) + find(btree, indis + 2 + 2, aranan);
         }
 
-        static void finn()//1-)Önceden oluşturulmuş 2 adet çiftli linked list yapısında data olarak integer kullanılmaktadır.Bu listelerin ilk elemanları head ve first'tür.          Bu iki bağlı listede ortak sayılar mevcuttur.Ortak sayılar her iki listede de birden fazla olabilir.Sayının ortak olması için   diğer her iki listede de olması şarttır.Aynı listede birden fazla olup diğer listede olmazsa ortak sayılmayacaktır. Bu listelerde ortak olarak 2 defa bulunan sayıların adedini bulunuz.(2021 Final)
+        static void finn()//1-)Önceden oluşturulmuş 2 adet çiftli linked list yapısında data olarak integer kullanılmaktadır.Bu listelerin ilk elemanları head ve first'tür.Bu iki bağlı listede ortak sayılar mevcuttur.Ortak sayılar her iki listede de birden fazla olabilir.Sayının ortak olması için   diğer her iki listede de olması şarttır.Aynı listede birden fazla olup diğer listede olmazsa ortak sayılmayacaktır. Bu listelerde ortak olarak 2 defa bulunan sayıların adedini bulunuz.(2021 Final)
         {
+            Block head = null;
+            Block last = new Block();
+            last.data = -1;
+            for(int i = 0; i < 15; i++)
+            {
+                head = new Block();
+                head.data = i;  
+                head.next = last;
+                last = head;
+                last.prev = head;
+            }
+            Block first = null;
+            Block last2 = new Block();
+            last2.data = -1;
+            for(int i = 0; i < 15; i++)
+            {
+                first = new Block();
+                first.data = i;
+                first.next = last2;
+                last2.prev = first;
+                last2 = first;
+            }// listelerimiz oluştu 
+            int[] arr = new int[20];
+            int ortak = 0;
+            Block bl = head;
+            head.data = 5;
+            head.next.data = 2;
+            head.next.next.data = 8;
 
+            first.data = 5;
+            first.next.data = 2;
+            first.next.next.data = 8;
+            //test dataları
+
+            //mevzu burda başlıyor
+            while ( bl.next != null)
+            {
+                Block bl2 = first;
+                while( bl2.next != null)
+                {
+                    if (bl.data == bl2.data)
+                    {
+                        arr[bl.data]++;
+                    }
+                    bl2 = bl2.next;
+                }
+                bl = bl.next;
+            }
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] >= 2)
+                {
+                    ortak++;
+                }
+            }
+            Console.WriteLine("Listelerde ortak olarak tam " + ortak + " eleman vardır.");
         }
         static void finna()//2-)1000 elemanlı int tipindeki bir dizi, dizi ile oluşturulan bir binary tree'nin verilerini tutmaktadır. Bu dizinin tüm elemanlarını while kullanarak ekrana yazdırınız.(2021 Final)
         {
@@ -2750,9 +2805,7 @@
         static void finnnnal()//(2021 Final)
         {
             //4-)ABACD/+/C*+Bd*- postfix ifadesini A=1 ; B = 12 ; C = 4 ; D = 2 için çözünüz. Stacktaki durumları detaylı gösteriniz(2021 Final)   
-        }
-        static void finnnnnal()//(2020 Final)
-        {
+
             /*5-)Linked list ile oluşturulmuş bir kuyruk için aşağıdakilerden hangisi yada hangileri doğrudur?(2020 Final)
             * i-Son gelen ilk çıkar yapısındadır.
             * ii-Eleman sayısını hesaplamak için while döngüsüne ihtiyaç vardır.
@@ -2766,6 +2819,7 @@
         static void finnnnnnnal()//(2020 Final)
         {
             /*
+            7-)
              static void Kuyrukekle_pointer(int data)
                 {
                     ciftli c = new ciftli();
@@ -2805,17 +2859,14 @@
                     c.prev = rear_;
 
                     E)hiçbiri
-             */
-        }
-        static void finnnnnnnnnnnal()//(2020 Final)
-        {
-            /*
-             8-) ab*cab*c/d-/-e+ postfix ifadesi ;
+
+
+            8-) ab*cab*c/d-/-e+ postfix ifadesi ;
                 int a = 1; int b = 2; int c = 3; int d = 4; int e = 5;
                 Değerleri için hangi sonucu getirir?(2020 Final)
                 A-)29       B-) 37      C-)27       D-) 33      
            
-            9)
+            9-)
                static void treeyaz(int[] btree, int ind)
                {
                    if(ind >= 14 ) return ;
@@ -2844,17 +2895,12 @@
            */
         }
 
-
-
-
-
         #endregion
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
-            HAFTA8_2();
-            H10();
-            H11();
+
+            finn();
         }
     }
 }
