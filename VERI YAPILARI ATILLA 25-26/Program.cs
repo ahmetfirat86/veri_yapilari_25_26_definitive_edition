@@ -2696,7 +2696,7 @@
             }
             return 0; // Bulunamadı
         }
-        static int bst_recursive(int[] btree , int indis , int aranan)
+        static int bst_recursive(int[] btree , int indis , int aranan)//binary search tree recursive
         {
             if (indis >= btree.Length) return 0;
             if (btree[indis] == aranan) return 1;
@@ -2709,83 +2709,143 @@
                 return bst_recursive(btree, indis * 2 + 1, aranan);
             }
         }
-        static int kac_kere_tekrar_eder_iteratif(int[] btree, int target)//Binary treede bir elemanın kaç kez tekrar ettiğini buldur.(hem normal hem recursive çöz)
+        static int Ara(int[] btree, int indis, int aranan)// bst search hocanın çözümü
         {
-            int indis = 0;
-            int sayac = 0;
-            while(indis < btree.Length)
-            {
-                if (btree[indis] == target) sayac++;
-                if (target < btree[indis])
-                    indis = indis * 2 + 1;//sol cocuğa bak
-                else
-                    indis = indis * 2 + 2;//sağ cocuğa bak
-
-                if (indis < btree.Length && btree[indis] == 0)
-                {
-                    break;
-                }
-            }
-            return sayac;
+            if (indis >= btree.Length) return 0;
+            if (btree[indis] < aranan) return Ara(btree, indis * 2 + 2, aranan);
+            else if (btree[indis] == aranan) return 1;
+            else return Ara(btree, indis * 2 + 1, aranan);
         }
-        static int kac_kere_tekrar_eder_rekursif(int[] btree, int i, int aranan)//Binary treede bir elemanın kaç kez tekrar ettiğini buldur.(hem normal hem recursive çöz)
+        static int kac_kere_tekrar_eder_rekursif(int[] btree, int i, int aranan)//Binary treede bir elemanın kaç kez tekrar ettiğini buldur.(recursive çöz)
         {
-            if (i >= btree.Length || btree[i] == 0) return 0;
+            if (i >= btree.Length || btree[i] == 0)
+                return 0;
 
-            // Mevcut düğüm aranan değer ise 1, değilse 0 döner [11]
-            int say = (btree[i] == aranan) ? 1 : 0;
+            if(btree[i] == aranan)
+                return 1 + kac_kere_tekrar_eder_rekursif(btree, i * 2 + 1, aranan)
+                       + kac_kere_tekrar_eder_rekursif(btree, i * 2 + 2, aranan);
 
-            // Kendisi + Sol koldaki tekrarlar + Sağ koldaki tekrarlar [5], [12]
-            return say + kac_kere_tekrar_eder_rekursif(btree, i * 2 + 1, aranan)
+            return  kac_kere_tekrar_eder_rekursif(btree, i * 2 + 1, aranan)
                        + kac_kere_tekrar_eder_rekursif(btree, i * 2 + 2, aranan);
         }
-        static void final()//Bir ikili ağacın (binary tree), “ dizi tabanlı ağaç gösterimi” ile birebir aynı yapıya ve değerlere sahip olup olmadığını kontrol etmek.
+        static int find(int[] btree, int indis, int aranan)//Binary treede bir elemanın kaç kez tekrar ettiğini buldur.hocanın çözümü
         {
-            static bool CompareArrayTree(int[] array, int index)
-            {
-                // Dizi sınırı aşılmışsa, bu dal bitmiştir (null node gibi)
-                if (index >= array.Length)
-                    return true;
+            if (indis >= btree.Length) return 0;
+            if (btree[indis] == aranan) memW++;
+            return find(btree, indis * 2 + 1, aranan) + find(btree, indis + 2 + 2, aranan);
+        }
 
-                int leftIndex = 2 * index + 1;
-                int rightIndex = 2 * index + 2;
-
-                // Sol çocuk varsa kontrol et
-                if (leftIndex < array.Length)
-                {
-                    // burada değer karşılaştırması yapılacak başka bir referans yok,
-                    // çünkü ağaç zaten dizinin kendisi
-                    if (!CompareArrayTree(array, leftIndex))
-                        return false;
-                }
-
-                // Sağ çocuk varsa kontrol et
-                if (rightIndex < array.Length)
-                {
-                    if (!CompareArrayTree(array, rightIndex))
-                        return false;
-                }
-
-                return true;
-            }
-
-            static bool CompareTwoArraysAsTrees(int[] a, int[] b, int index)
-            {
-                if (index >= a.Length && index >= b.Length)
-                    return true;
-
-                if (index >= a.Length || index >= b.Length)
-                    return false;
-
-                if (a[index] != b[index])
-                    return false;
-
-                return CompareTwoArraysAsTrees(a, b, 2 * index + 1)
-                    && CompareTwoArraysAsTrees(a, b, 2 * index + 2);
-            }
-
+        static void finn()//1-)Önceden oluşturulmuş 2 adet çiftli linked list yapısında data olarak integer kullanılmaktadır.Bu listelerin ilk elemanları head ve first'tür.          Bu iki bağlı listede ortak sayılar mevcuttur.Ortak sayılar her iki listede de birden fazla olabilir.Sayının ortak olması için   diğer her iki listede de olması şarttır.Aynı listede birden fazla olup diğer listede olmazsa ortak sayılmayacaktır. Bu listelerde ortak olarak 2 defa bulunan sayıların adedini bulunuz.(2021 Final)
+        {
 
         }
+        static void finna()//2-)1000 elemanlı int tipindeki bir dizi, dizi ile oluşturulan bir binary tree'nin verilerini tutmaktadır. Bu dizinin tüm elemanlarını while kullanarak ekrana yazdırınız.(2021 Final)
+        {
+
+        }
+        static void finnnal()//3-)Data ve link 1000'er elemanlı int tipinde iki adet dizidir.Data dizisinde sayılar vardır.Link dizisinde data dizisinin indisleri mevcuttur.Bu sayede link dizisi ile data dizisi üzerinde bir bağlı liste yapısı oluşturulmuştur.Bağlı listenin ilk elemanı data dizisinin 70. elemanıdır.Bu listenin elemanlarını sırayla ekrana recursive olarak yazdırınız.70'ten sonra gelen eleman link[70] ile alınacak ve bu şekilde devam edecektir(2021 Final)          
+        {
+
+        }
+        static void finnnnal()//(2021 Final)
+        {
+            //4-)ABACD/+/C*+Bd*- postfix ifadesini A=1 ; B = 12 ; C = 4 ; D = 2 için çözünüz. Stacktaki durumları detaylı gösteriniz(2021 Final)   
+        }
+        static void finnnnnal()//(2020 Final)
+        {
+            /*5-)Linked list ile oluşturulmuş bir kuyruk için aşağıdakilerden hangisi yada hangileri doğrudur?(2020 Final)
+            * i-Son gelen ilk çıkar yapısındadır.
+            * ii-Eleman sayısını hesaplamak için while döngüsüne ihtiyaç vardır.
+            * iii-Front kuyruktan eleman çıkışı için kullanılır.
+            * iV-infix ve postfix işlemlerinde kullanılır.*/
+        }
+        static void finnnnnnal()//6-)X dizisi 100 elemanlı int tipindedir ve içerisinde sayılar vardır.Bu sayıları yeni oluşturacağınız linked list yapısına sıralı olarak ekleyen recursive kodları yazınız.(2020 Final)
+        {
+
+        }
+        static void finnnnnnnal()//(2020 Final)
+        {
+            /*
+             static void Kuyrukekle_pointer(int data)
+                {
+                    ciftli c = new ciftli();
+                    c.data = data;
+                    c.next = null;
+
+                    if ( .......... )
+                    {
+                        rear_ = c;
+                        front_ = c;
+                    }
+                    else
+                    {
+                        ..........
+                        rear_.next = c;
+                        rear_ = c;
+                    }
+                }
+                Yukarıdaki kod, çift yönlü (doubly) linked list kullanılarak kuyruğa eleman ekleme işlemi yapmaktadır.
+                    Noktalı yerlere sırasıyla hangi kodlar gelmelidir?
+                    (2020 Final)
+
+                    A)
+                    rear_.next = null
+                    c.prev = rear_.prev;
+
+                    B)
+                    rear_.prev == null
+                    c = rear_.next;
+
+                    C)
+                    rear_ == c
+                    c.next = rear_prev;
+
+                    D)
+                    rear_ == null
+                    c.prev = rear_;
+
+                    E)hiçbiri
+             */
+        }
+        static void finnnnnnnnnnnal()//(2020 Final)
+        {
+            /*
+             8-) ab*cab*c/d-/-e+ postfix ifadesi ;
+                int a = 1; int b = 2; int c = 3; int d = 4; int e = 5;
+                Değerleri için hangi sonucu getirir?(2020 Final)
+                A-)29       B-) 37      C-)27       D-) 33      
+           
+            9)
+               static void treeyaz(int[] btree, int ind)
+               {
+                   if(ind >= 14 ) return ;
+                   treeyaz(btree,ind*2+2);
+                   treeyaz(btree,ind*2+1);
+                   Console.WriteLine(btree[ind]);
+               }
+               Metodu dizi elemanları kendi indis değerlerine atanmış ise(btree[0] = 0 ; btree[1] = 1 ;....) ekrana yazacağı ilk sayı kaçtır?(2020 Final)
+                      A-) 0   B-) 7   C-)13   D-)11   E-)9    
+          
+            10-) ab*abc*+d-/w+ postfix ifadesinin infix karşılığı nedir?(2020 Final)      
+         
+            11-)a*b-c/(a*b/c-d)+g infix ifadesinin postfix karşılığı nedir?(2020 Final)  
+            
+            12-) tree yapıları için aşağıdakilerden hangisi yada hangileri doğrudur?(2020 Final)
+                i-Node yada blocklardan oluşur.
+                ii-Seviye-Level adı verilen katman oluştururlar.
+                iii-İkili ağaçlar diziler veya linked listlerle oluşturulabilirler.
+                iV-Ağacın kökü en üst bölümdedir.
+
+            13-) Diziler ile kodlanan bir kuyruk yapısı için hangileri doğrudur?(2020 Final)
+                i-İlk başta rear -1 değerine sahiptir.
+                ii-eleman sayısını bulmak için recursive metod kullanılır.
+                iii-rear ve front aynı değere sahipse kuyruk boştur.
+
+           */
+        }
+
+
+
 
 
         #endregion
