@@ -1,4 +1,6 @@
-﻿namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
+﻿using System.Xml.Linq;
+
+namespace VERİ_YAPILARI//listenin eleman sayısını bulunuz recursive
 {
     #region Euzu billahi mineşşeytanirracim ve Bismillahirrahmanirrahim
     /* Allah’ım, veri yapıları dersinde ilmi doğru anlamayı ve emeğimin karşılığını almayı nasip eyle. Çalışmamı bereketli kıl, zihnimi açık ve muhakememi sağlam eyle. Attilla Ergüzen hocamızın verdiği ilmi hakkıyla kavrayıp adil bir şekilde değerlendirilmemi sağla. Hakkımla bu dersi geçmeyi ve hayırlı bir başarı elde etmeyi bana lütfet.Amin.
@@ -2836,33 +2838,102 @@
             return levelNodeSayisi(btree, indis * 2 + 1, seviye + 1, hedefSeviye)
                  + levelNodeSayisi(btree, indis * 2 + 2, seviye + 1, hedefSeviye);
         }
+
+
+        #endregion
+        #region -FİNAL ÖRNEKLERİ-
+        static void arrToLL()//array to linked list
+        {
+            int[] array1 = { 1, 4, 1, 2, 2 };
+            int[] array2 = { 1, 2, 4, 2, 3 };
+
+            Block head1 = null;
+            Block last1 = null;
+            Block head2 = null;
+            Block last2 = null;
+            for (int i = 0; i < array1.Length; i++)
+            {
+                Block nb = new Block();
+                nb.data = array1[i];
+                if (head1 == null)
+                {
+                    head1 = nb;
+                    last1 = nb;
+                }
+                else
+                {
+                    last1.next = nb;
+                    nb.prev = last1;
+                    last1 = nb;
+                }
+            }
+            for (int i = 0; i < array2.Length; i++)
+            {
+                Block nb = new Block();
+                nb.data = array2[i];
+                if (head2 == null)
+                {
+                    head2 = nb;
+                    last2 = nb;
+                }
+                else
+                {
+                    last2.next = nb;
+                    nb.prev = last2;
+                    last2 = nb;
+                }
+            }
+            Block temp = head1;
+            int[] checkingArr1 = new int[array1.Length];
+            int[] checkingArr2 = new int[array2.Length];
+            int ctr = 0;
+            while (temp != null)
+            {
+                int value = temp.data;
+                checkingArr1[value]++;
+                temp = temp.next;
+            }
+            temp=head2;
+            while (temp != null)
+            {
+                int value = temp.data;
+                checkingArr2[value]++;
+                temp = temp.next;
+            }
+            for(int i=0; i< checkingArr1.Length; i++)
+            {
+                if(checkingArr1[i]==2 && checkingArr2[i] == 2)
+                {
+                    ctr++;
+                }
+            }
+            Console.WriteLine(ctr+" elcevaappp "+ctr);
+        }
         static void finn()//1-)Önceden oluşturulmuş 2 adet çiftli linked list yapısında data olarak integer kullanılmaktadır.Bu listelerin ilk elemanları head ve first'tür.Bu iki bağlı listede ortak sayılar mevcuttur.Ortak sayılar her iki listede de birden fazla olabilir.Sayının ortak olması için   diğer her iki listede de olması şarttır.Aynı listede birden fazla olup diğer listede olmazsa ortak sayılmayacaktır. Bu listelerde ortak olarak 2 defa bulunan sayıların adedini bulunuz.(2021 Final)
         {
             Block head = null;
             Block last = new Block();
             last.data = -1;
-            for(int i = 0; i < 15; i++)
+
+            for (int i = 0; i < 15; i++)
             {
                 head = new Block();
-                head.data = i;  
+                head.data = i;
                 head.next = last;
-                last = head;
                 last.prev = head;
+                last = head;
             }
             Block first = null;
             Block last2 = new Block();
             last2.data = -1;
-            for(int i = 0; i < 15; i++)
+            for (int i = 0; i < 15; i++)
             {
                 first = new Block();
                 first.data = i;
                 first.next = last2;
                 last2.prev = first;
                 last2 = first;
-            }// listelerimiz oluştu 
-            int[] arr = new int[20];
-            int ortak = 0;
-            Block bl = head;
+            }// Bu kısma kadar linked listlerimizi oluşturduk(henüz sorunun çözümüne başlamadık)
             head.data = 5;
             head.next.data = 2;
             head.next.next.data = 8;
@@ -2870,27 +2941,29 @@
             first.data = 5;
             first.next.data = 2;
             first.next.next.data = 8;
-            //test dataları
+            // Bunlar test değerleri kafaya çok takmayın
+            int[] x = new int[20];
+            int ortak = 0;
+            Block bl = head;
 
-            //mevzu burda başlıyor
-            while ( bl.next != null)
+            while (bl.next != null)
             {
-                Block bl2 = first;
-                while( bl2.next != null)
+                Block bl2 = first;     
+                while (bl2.next != null)
                 {
                     if (bl.data == bl2.data)
                     {
-                        arr[bl.data]++;
+                        x[bl.data]++;     //Burada da ortak olan elemanı indise çevirip kaç kez tekrar ettiğini bulduk
                     }
                     bl2 = bl2.next;
                 }
                 bl = bl.next;
             }
-            for (int i = 0; i < arr.Length; i++)
+            for (int i = 0; i < x.Length; i++)
             {
-                if (arr[i] >= 2)
+                if (x[i] >= 2)
                 {
-                    ortak++;
+                    ortak++;          //Son olarak burada da hangi elemanın 2den fazla tekrar ettiğini bulduk.
                 }
             }
             Console.WriteLine("Listelerde ortak olarak tam " + ortak + " eleman vardır.");
@@ -2908,15 +2981,19 @@
                     spll = newBl;
                     return;
                 }
-                newBl.next = spll;
-                spll.prev = newBl;
-                spll = newBl;
+                else
+                {
+                    newBl.next = spll;
+                    spll.prev = newBl;
+                    spll = newBl;
+                }
+                
             }
             static int pop()
             {
-                int temp = spll.data;
+                int value = spll.data;
                 spll = spll.next;
-                return temp;
+                return value;
             }
             push(0);
             while (spll != null)
@@ -2928,8 +3005,8 @@
                 {
                     push(indis);
                 }
-                indis++; 
-                if(indis <= binary_tree.Length)
+                indis++;//  indis = indis*2+2
+                if (indis <= binary_tree.Length)
                 {
                     push(indis);
                 }
@@ -2968,79 +3045,47 @@
         {
             /*
             4-)ABACD/+/C*+Bd*- postfix ifadesini A=1 ; B = 12 ; C = 4 ; D = 2 için çözünüz. Stacktaki durumları detaylı gösteriniz(2021 Final)   
-            Postfix ifade ABACD/+/C+Bd-** soldan sağa okunur ve değerlendirme sırasında bir stack kullanılır. Verilen değerler A=1, B=12, C=4, D=2’dir. Başlangıçta stack boştur.
+            A  -> push                      [ A
+            B  -> push                      [ A B
+            A  -> push                      [ A B A
+            C  -> push                      [ A B A C
+            D  -> push                      [ A B A C D
 
-             İlk sembol A’dır. Operand olduğu için değeri stack’e atılır.
-             Stack: [1]
+            /  -> C ve D pop
+                  işlem (C/D) push          [ A B A (C/D)
 
-             Sonraki sembol B’dir. Değeri 12’dir, stack’e push edilir.
-             Stack: [1, 12]
+            +  -> A ve (C/D) pop
+                  işlem (A+(C/D)) push      [ A B (A+(C/D))
 
-             Sonraki sembol A’dır. Değeri 1’dir, stack’e push edilir.
-             Stack: [1, 12, 1]
+            /  -> B ve (A+(C/D)) pop
+                  işlem (B/(A+(C/D))) push  [ A (B/(A+(C/D)))
 
-             Sonraki sembol C’dir. Değeri 4’tür, stack’e push edilir.
-             Stack: [1, 12, 1, 4]
+            C  -> push                      [ A (B/(A+(C/D))) C
 
-             Sonraki sembol D’dir. Değeri 2’dir, stack’e push edilir.
-             Stack: [1, 12, 1, 4, 2]
+            *  -> (B/(A+(C/D))) ve C pop
+                  işlem ((B/(A+(C/D)))*C) push
+                                            [ A ((B/(A+(C/D)))*C)
 
-             Sonraki sembol / operatörüdür. Stack’ten önce 2, sonra 4 pop edilir.
-             Hesap: 4 / 2 = 2
-             Sonuç stack’e push edilir.
-             Stack: [1, 12, 1, 2]
+            +  -> A ve ((B/(A+(C/D)))*C) pop
+                  işlem (A+((B/(A+(C/D)))*C)) push
+                                            [ (A+((B/(A+(C/D)))*C))
 
-             Sonraki sembol + operatörüdür. Stack’ten önce 2, sonra 1 pop edilir.
-             Hesap: 1 + 2 = 3
-             Sonuç stack’e push edilir.
-             Stack: [1, 12, 3]
+            B  -> push                      [ (A+((B/(A+(C/D)))*C)) B
+            d  -> push                      [ (A+((B/(A+(C/D)))*C)) B d
 
-             Sonraki sembol / operatörüdür. Stack’ten önce 3, sonra 12 pop edilir.
-             Hesap: 12 / 3 = 4
-             Sonuç stack’e push edilir.
-             Stack: [1, 4]
+            *  -> B ve d pop
+                  işlem (B*d) push          [ (A+((B/(A+(C/D)))*C)) (B*d)
 
-             Sonraki sembol C’dir. Değeri 4’tür, stack’e push edilir.
-             Stack: [1, 4, 4]
+            -  -> (A+((B/(A+(C/D)))*C)) ve (B*d) pop
+                  işlem ((A+((B/(A+(C/D)))*C))-(B*d)) push
+                                            [ ((A+((B/(A+(C/D)))*C))-(B*d))
 
-             Sonraki sembol * operatörüdür. Stack’ten önce 4, sonra 4 pop edilir.
-             Hesap: 4 * 4 = 16
-             Sonuç stack’e push edilir.
-             Stack: [1, 16]
-
-             Sonraki sembol + operatörüdür. Stack’ten önce 16, sonra 1 pop edilir.
-             Hesap: 1 + 16 = 17
-             Sonuç stack’e push edilir.
-             Stack: [17]
-
-             Sonraki sembol B’dir. Değeri 12’dir, stack’e push edilir.
-             Stack: [17, 12]
-
-             Sonraki sembol d (D)’dir. Değeri 2’dir, stack’e push edilir.
-             Stack: [17, 12, 2]
-
-             Sonraki sembol * operatörüdür. Stack’ten önce 2, sonra 12 pop edilir.
-             Hesap: 12 * 2 = 24
-             Sonuç stack’e push edilir.
-             Stack: [17, 24]
-
-             Son sembol - operatörüdür. Stack’ten önce 24, sonra 17 pop edilir.
-             Hesap: 17 − 24 = -7
-             Sonuç stack’e push edilir.
-             Stack: [-7]
-
-             İfade tamamlandığında stack’te tek bir eleman kalmıştır. Bu değer postfix ifadenin sonucudur.
-             Sonuç: -7
 
            5-)Linked list ile oluşturulmuş bir kuyruk için aşağıdakilerden hangisi yada hangileri doğrudur?(2020 Final)
             * i-Son gelen ilk çıkar yapısındadır.
             * ii-Eleman sayısını hesaplamak için while döngüsüne ihtiyaç vardır.
-            * iii-Front kuyruktan eleman çıkışı için kullanılır.
+            * iii-Front kuyruktan eleman çıkışı için kullanılır. (DOGRU CEVAP)
             * iV-infix ve postfix işlemlerinde kullanılır.*/
-        }
-        static void finnnnnnal()//6-)X dizisi 100 elemanlı int tipindedir ve içerisinde sayılar vardır.Bu sayıları yeni oluşturacağınız linked list yapısına sıralı olarak ekleyen recursive kodları yazınız.(2020 Final)
-        {
-
         }
         static void finnnnnnnal()//(2020 Final)
         {
@@ -3080,7 +3125,7 @@
                     rear_ == c
                     c.next = rear_prev;
 
-                    D)
+                    D) (DOĞRU CEVAP)
                     rear_ == null
                     c.prev = rear_;
 
@@ -3120,12 +3165,14 @@
 
            */
         }
-
         #endregion
         static void Main(string[] args) // MAIN METHOD
         {
             Console.WriteLine("ALLAH KURTARSIN!");
 
+            
+            arrToLL();
+            Console.WriteLine("----------");
             finn();
         }
     }
